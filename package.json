@@ -11,6 +11,14 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akshay02-cmd/Mama-s-kitchen-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Akshay02-cmd/Mama-s-kitchen-backend/issues"
+  },
+  "homepage": "https://github.com/Akshay02-cmd/Mama-s-kitchen-backend#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
