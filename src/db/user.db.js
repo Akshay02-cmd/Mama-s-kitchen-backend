@@ -6,10 +6,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const UserSchema = new mongoose.Schema({
-  username: {
+  role: {
+    type: String,
+    enum: ["CUSTOMER", "OWNER"],
+    required: true,
+  },
+  name: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
     minlength: 3,
     maxlength: 30,
@@ -31,18 +35,19 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-}); 
+});
 
 UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.username },
+    { userId: this._id, name: this.name, role: this.role },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_LIFETIME || '30d' }
+    { expiresIn: process.env.JWT_LIFETIME || "30d" }
   );
 };
 

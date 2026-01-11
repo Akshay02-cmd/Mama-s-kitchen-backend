@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import User from "../db/user.js";
-
+import User from "../db/user.db.js";
 
 const register = async (req, res) => {
   try {
@@ -9,13 +8,16 @@ const register = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    res
-      .status(StatusCodes.CREATED)
-      .json({ user: { name: user.username }, token });
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
+    });
   } catch (error) {
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: error.message });
+    res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
   }
 };
 
@@ -43,9 +45,16 @@ const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    res
-      .status(StatusCodes.OK)
-      .json({ message: "Login successful", user: { name: user.username }, token });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
+      user1: req.user,
+    });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

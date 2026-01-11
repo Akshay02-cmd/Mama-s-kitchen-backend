@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import authRouter from './routers/auth/auth.routers.js';
-import mealRouter from './routers/meals/mealinfo.routers.js';
+import authRouter from './routes/auth.routes.js';
+import profileRouter from  './routes/profile.routes.js';
 
 dotenv.config();
 
@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to Mama\'s Kitchen API');
 });
 
-app.use('/auth', authRouter);
-app.use('/meals', mealRouter);
+app.use('/auth', authRouter);  
+app.use('/profile',profileRouter);
 app.use('/contacts',(req, res) => {
   res.send('Contacts endpoint is under construction');
 });

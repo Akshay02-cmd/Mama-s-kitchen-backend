@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import CustomApiError from "./CutomeAPIError.js";
 
-export default class BadRequestError extends CustomApiError {
+export default class ForbiddenError extends CustomApiError {
   constructor(message) {
-    super(message, StatusCodes.BAD_REQUEST);
+    super(message, StatusCodes.FORBIDDEN);
   }
 }
