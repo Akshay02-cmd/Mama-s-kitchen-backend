@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MessSchema = new mongoose.Schema(
+const OwnerSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +44,6 @@ const MessSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Mess = mongoose.model("MessOwnerProfile", MessSchema);
+const Mess = mongoose.model("Owner", OwnerSchema);
 
 export default Mess;

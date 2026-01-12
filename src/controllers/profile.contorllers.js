@@ -1,5 +1,5 @@
-import CUSTOMER from "../db/CustomerProfile.db.js";
-import OWNER from "../db/MessProfile.db.js";
+import CUSTOMER from "../model/CustomerProfile.model.js";
+import OWNER from "../model/OwnerProfile.model.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 

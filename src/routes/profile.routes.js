@@ -4,7 +4,7 @@ import validate from "../middleware/validator.middelware.js";
 import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
 import {
   CustomerSchema,
-  MessSchema,
+  OwnerSchema,
   UpdateProfileSchema,
 } from "../validators/profile.validators.js";
 import {
@@ -27,7 +27,7 @@ router
 router
   .route("/owner")
   .get(auth, authorizeRoles("OWNER"),GetProfileOwner)
-  .post(auth, authorizeRoles("OWNER"),validate(MessSchema),CreateProfileOwner)
+  .post(auth, authorizeRoles("OWNER"),validate(OwnerSchema),CreateProfileOwner)
   .put(auth, authorizeRoles("OWNER"),validate(UpdateProfileSchema), UpdateProfileOwner);
 
 export default router;

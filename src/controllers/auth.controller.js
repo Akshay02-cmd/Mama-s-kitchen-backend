@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import User from "../db/user.db.js";
+import User from "../model/user.model.js";
 
 const register = async (req, res) => {
   try {

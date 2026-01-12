@@ -10,7 +10,7 @@ export const CustomerSchema = Joi.object({
   address: Joi.string().min(10).max(300).required(),
 });
 
-export const MessSchema = Joi.object({
+export const OwnerSchema = Joi.object({
   usertId: objectIdSchema,
   phone: Joi.string()
     .pattern(/^[6-9]d{9}$/)
