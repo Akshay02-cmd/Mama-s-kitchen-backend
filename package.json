@@ -8,9 +8,9 @@
     "start": "nodemon src/server.js"
   },
   "keywords": [ "meal", "mess", "food", "restaurant", "menu"],
-  "author": "",
+  "author": "Akshay Patil, TechRedy IT Solutions",
   "license": "ISC",
-  "description": "",
+  "description": "A web application backend for managing meals, menus, and restaurant operations.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Akshay02-cmd/Mama-s-kitchen-backend.git"
