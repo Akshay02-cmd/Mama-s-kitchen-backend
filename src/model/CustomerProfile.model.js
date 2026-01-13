@@ -9,11 +9,9 @@ const CustomerSchema = new mongoose.Schema(
       unique: true, // one profile per user
     },
     phone: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      maxlength: 10,
-      match: [/^[6-9]d{9}$/, "Invalid Phone Number"],
+      type: String,
       required: true,
+      match: [/^[6-9]d{9}$/, "Invalid phone number"],
     },
     address: {
       type: String,
@@ -21,6 +19,11 @@ const CustomerSchema = new mongoose.Schema(
       minlength: 10,
       maxlength: 300,
     },
+    isProfileCompleted:{
+      type: Boolean,
+      default: false,
+      required: true,
+    }
   },
   { timestamps: true }
 );

@@ -49,14 +49,11 @@ export const GetProfileCustomer = async (req, res) => {
 
 export const CreateProfileOwner = async (req, res) => {
   const userId = req.user.userId;
-  const { phone, address, messName, area, description } = req.body;
+  const { phone, address } = req.body;
   const profile = await OWNER.create({
     userId,
     phone,
     address,
-    messName,
-    area,
-    description,
   });
   if (!profile) {
     throw new BadRequestError("Unable to create owner profile");
@@ -66,10 +63,10 @@ export const CreateProfileOwner = async (req, res) => {
 
 export const UpdateProfileOwner = async (req, res) => {
   const userId = req.user.userId;
-  const { phone, address, messName, area, description } = req.body;
+  const { phone, address } = req.body;
   const profile = await OWNER.findOneAndUpdate(
     { userId },
-    { phone, address, messName, area, description },
+    { phone, address },
     { new: true, runValidators: true }
   );  
   if (!profile) {

@@ -19,26 +19,10 @@ const OwnerSchema = new mongoose.Schema(
       minlength: 10,
       maxlength: 300,
     },
-    messName: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 3,
-      maxlength: 100,
-    },
-    area: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-      minlength: 10,
-      maxlength: 400,
-    },
-    isVerified: {
+    isProfileCompleted: {
       type: Boolean,
       default: false,
+      required: true,
     },
   },
   { timestamps: true }

@@ -16,15 +16,32 @@ export const OwnerSchema = Joi.object({
     .pattern(/^[6-9]d{9}$/)
     .required(),
   address: Joi.string().min(10).max(300).required(),
-  messName: Joi.string().min(3).max(100).required(),
-  area: Joi.string().required(),
-  description: Joi.string().min(10).max(400),
 });
 
 export const UpdateProfileSchema = Joi.object({
+  name: Joi.string().min(3).max(100),
   phone: Joi.string().pattern(/^[6-9]d{9}$/),
   address: Joi.string().min(10).max(300),
-  messName: Joi.string().min(3).max(100),
-  area: Joi.string(),
-  description: Joi.string().min(10).max(400),
+  is_Active: Joi.boolean(),
+});
+
+export const MessSchema = Joi.object({
+  ownerId: objectIdSchema,
+  name: Joi.string().min(3).max(100).required(),
+  area: Joi.string().min(3).max(100).required(),
+  phone: Joi.string()
+    .pattern(/^[6-9]d{9}$/)
+    .required(),
+  address: Joi.string().min(10).max(300).required(),
+  description: Joi.string().min(10).max(500).required(),
+  is_Active: Joi.boolean().required(),
+});
+
+export const UpdateMessSchema = Joi.object({
+  name: Joi.string().min(3).max(100),
+  phone: Joi.string().pattern(/^[6-9]d{9}$/),
+  address: Joi.string().min(10).max(300),
+  area: Joi.string().min(3).max(100),
+  description: Joi.string().min(10).max(500),
+  is_Active: Joi.boolean(),
 });
