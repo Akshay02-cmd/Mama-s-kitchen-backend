@@ -573,7 +573,7 @@ This project is licensed under the **ISC License**.
 
 ## 📞 Support
 
-For support, email: [your-email@example.com]
+For support, email: [akshaydpatil1646@gmail.com]
 
 Project Link: [https://github.com/Akshay02-cmd/Mama-s-kitchen-backend](https://github.com/Akshay02-cmd/Mama-s-kitchen-backend)
 
