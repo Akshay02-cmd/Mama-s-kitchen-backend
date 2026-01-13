@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
 import profileRouter from  './routes/profile.routes.js';
+import messRouter from './routes/mess.routes.js';
 
 dotenv.config();
 
@@ -15,11 +16,9 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRouter);  
 app.use('/profile',profileRouter);
+app.use('/mess', messRouter);
 app.use('/contacts',(req, res) => {
   res.send('Contacts endpoint is under construction');
-});
-app.use('/mess',(req, res) => {
-  res.send('Meals endpoint is under construction');
 });
 
 // Handle 404 for undefined routes

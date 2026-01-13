@@ -2,11 +2,11 @@ import { StatusCodes } from "http-status-codes";
 import MESS from "../model/Mess.model.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
-const createMess = (req, res) => {
-  const { userId } = req.user.userId;
+const createMess = async (req, res) => {
+  const { userId } = req.user;
   const { messName, area, phone, address, description } = req.body;
 
-  const mess = MESS.create({
+  const mess = await MESS.create({
     ownerId: userId,
     name: messName,
     area,
@@ -21,19 +21,19 @@ const createMess = (req, res) => {
   res.status(StatusCodes.CREATED).json({ mess });
 };
 
-const getMess = (req, res) => {
+const getMess = async (req, res) => {
   const { messid } = req.params;
-  const mess = MESS.findById(messid);
+  const mess = await MESS.findById(messid);
   if (!mess) {
     throw new NotFoundError("Mess not found");
   }
   res.status(StatusCodes.OK).json({ mess });
 };
 
-const updateMess = (req, res) => {
+const updateMess = async (req, res) => {
   const { messid } = req.params;
   const { name, area, phone, address, description } = req.body;
-  const mess = MESS.findByIdAndUpdate(
+  const mess = await MESS.findByIdAndUpdate(
     messid,
     { name, area, phone, address, description },
     { new: true, runValidators: true }
@@ -44,17 +44,17 @@ const updateMess = (req, res) => {
   res.status(StatusCodes.OK).json({ mess });
 };
 
-const deleteMess = (req, res) => {
+const deleteMess = async (req, res) => {
   const { messid } = req.params;
-  const mess = MESS.findByIdAndDelete(messid);
+  const mess = await MESS.findByIdAndDelete(messid);
   if (!mess) {
     throw new NotFoundError("Mess not found");
   }
   res.status(StatusCodes.OK).json({ mess });
 };
 
-const getallMesses = (req, res) => {
-  const messes = MESS.find({});
+const getallMesses = async (req, res) => {
+  const messes = await MESS.find({});
   if (!messes) {
     throw new NotFoundError("No messes found");
   }

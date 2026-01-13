@@ -22,7 +22,7 @@ const MessSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      match: [/^[6-9]d{9}$/, "Invalid phone number"],
+      match: [/^[6-9]\d{9}$/, "Invalid phone number"],
       required: true,
     },
     address: {

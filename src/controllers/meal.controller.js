@@ -2,11 +2,11 @@ import { StatusCodes } from "http-status-codes";
 import MEAL from "../model/Meal.model.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
-const createMeal = (req, res) => {
+const createMeal = async (req, res) => {
   const { messid } = req.params;
   const { name, mealType, is_Veg, description, price, is_Available } = req.body;
 
-  const meal = MEAL.create({
+  const meal = await MEAL.create({
     messId: messid,
     name,
     mealType,
@@ -20,19 +20,19 @@ const createMeal = (req, res) => {
   }
   res.status(StatusCodes.CREATED).json({ meal });
 };
-const getMeal = (req, res) => {
+const getMeal = async (req, res) => {
   const { mealid } = req.params;
-  const meal = MEAL.findById(mealid);
+  const meal = await MEAL.findById(mealid);
   if (!meal) {
     throw new NotFoundError("Meal not found");
   }
   res.status(StatusCodes.OK).json({ meal });
 };
 
-const updateMeal = (req, res) => {
+const updateMeal = async (req, res) => {
   const { mealid } = req.params;
   const { name, mealType, is_Veg, description, price, is_Available } = req.body;
-  const meal = MEAL.findByIdAndUpdate(
+  const meal = await MEAL.findByIdAndUpdate(
     mealid,
     { name, mealType, is_Veg, description, price, is_Available }, 
     { new: true, runValidators: true }
@@ -43,17 +43,17 @@ const updateMeal = (req, res) => {
   res.status(StatusCodes.OK).json({ meal });
 };
 
-const getallMeals = (req, res) => {
-  const meal = MEAL.find({});
+const getallMeals = async (req, res) => {
+  const meal = await MEAL.find({});
   if(!meal){
     throw new NotFoundError('No meal found')
   }
-  res.send("All meals");
+  res.status(StatusCodes.OK).json({ meal });
 };
 
-const deleteMeal = (req, res) => {
+const deleteMeal = async (req, res) => {
   const { mealid } = req.params;
-  const meal = MEAL.findByIdAndDelete(mealid);
+  const meal = await MEAL.findByIdAndDelete(mealid);
   if (!meal) {
     throw new NotFoundError("Meal not found");
   }
