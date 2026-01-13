@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/server.js"
   },
-  "keywords": [],
+  "keywords": [ "meal", "mess", "food", "restaurant", "menu"],
   "author": "",
   "license": "ISC",
   "description": "",
