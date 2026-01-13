@@ -1,7 +1,34 @@
+/**
+ * @fileoverview Meal management controller for CRUD operations
+ * @module controllers/meal.controller
+ * @requires http-status-codes
+ * @requires ../model/Meal.model
+ * @requires ../errors/index
+ */
+
 import { StatusCodes } from "http-status-codes";
 import MEAL from "../model/Meal.model.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
+/**
+ * Create a new meal for a specific mess
+ * 
+ * @async
+ * @function createMeal
+ * @param {Object} req - Express request object
+ * @param {Object} req.params - Route parameters
+ * @param {string} req.params.messid - Mess ID
+ * @param {Object} req.body - Meal data
+ * @param {string} req.body.name - Meal name
+ * @param {string} req.body.mealType - Type (breakfast/lunch/dinner/snack)
+ * @param {boolean} req.body.is_Veg - Vegetarian flag
+ * @param {string} req.body.description - Meal description
+ * @param {number} req.body.price - Price in rupees
+ * @param {boolean} req.body.is_Available - Availability status
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>} JSON response with created meal
+ * @throws {BadRequestError} If meal creation fails
+ */
 const createMeal = async (req, res) => {
   const { messid } = req.params;
   const { name, mealType, is_Veg, description, price, is_Available } = req.body;

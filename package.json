@@ -1,16 +1,44 @@
 {
-  "name": "mama's-ktichen-backend",
+  "name": "mamas-kitchen-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "RESTful API backend for Mama's Kitchen - A meal ordering platform connecting customers with local home-based caterers and mess services",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
+    "start": "nodemon src/server.js",
+    "start:prod": "node src/server.js",
+    "dev": "nodemon --inspect src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
+    "lint": "echo \"Linting not configured yet\"",
+    "docs": "echo \"API documentation available in API_DOCUMENTATION.md\""
   },
-  "keywords": [ "meal", "mess", "food", "restaurant", "menu"],
-  "author": "Akshay Patil, TechRedy IT Solutions",
+  "keywords": [
+    "meal-ordering",
+    "food-delivery",
+    "mess-management",
+    "catering-service",
+    "restaurant-api",
+    "nodejs",
+    "express",
+    "mongodb",
+    "jwt-authentication",
+    "rest-api",
+    "nashik",
+    "india"
+  ],
+  "author": {
+    "name": "Akshay Patil",
+    "company": "TechRedy IT Solutions",
+    "email": "your-email@example.com"
+  },
+  "contributors": [
+    {
+      "name": "Akshay Patil",
+      "email": "your-email@example.com",
+      "url": "https://github.com/Akshay02-cmd"
+    }
+  ],
   "license": "ISC",
-  "description": "A web application backend for managing meals, menus, and restaurant operations.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Akshay02-cmd/Mama-s-kitchen-backend.git"

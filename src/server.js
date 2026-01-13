@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server entry point - initializes and starts the application
+ * @module server
+ * @requires ./app
+ * @requires dotenv
+ * @requires ./config/db.config
+ */
+
 import app from "./app.js";
 import dotenv from "dotenv";
 import connectDB from "./config/db.config.js";
@@ -7,6 +15,13 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+/**
+ * Start the Express server and connect to database
+ * @async
+ * @function start
+ * @returns {Promise<void>}
+ * @throws {Error} Exits process if PORT or MONGO_URI missing or connection fails
+ */
 const start = async () => {
   if (!PORT) {
     console.error("PORT is not defined in environment variables");

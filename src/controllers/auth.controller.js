@@ -1,6 +1,36 @@
+/**
+ * @fileoverview Authentication controller handling user registration and login
+ * @module controllers/auth.controller
+ * @requires http-status-codes
+ * @requires ../model/user.model
+ */
+
 import { StatusCodes } from "http-status-codes";
 import User from "../model/user.model.js";
 
+/**
+ * Register a new user account
+ * 
+ * @async
+ * @function register
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body
+ * @param {string} req.body.name - User's full name
+ * @param {string} req.body.email - User's email address
+ * @param {string} req.body.password - User's password (will be hashed)
+ * @param {string} req.body.role - User role (CUSTOMER or OWNER)
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>} JSON response with user data and JWT token
+ * 
+ * @example
+ * POST /auth/register
+ * {
+ *   "name": "John Doe",
+ *   "email": "john@example.com",
+ *   "password": "password123",
+ *   "role": "CUSTOMER"
+ * }
+ */
 const register = async (req, res) => {
   try {
     const user = await User.create({ ...req.body });
@@ -21,6 +51,27 @@ const register = async (req, res) => {
   }
 };
 
+/**
+ * Authenticate user and generate JWT token
+ * 
+ * @async
+ * @function login
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body
+ * @param {string} req.body.email - User's email address
+ * @param {string} req.body.password - User's password
+ * @param {string} req.body.role - User role for validation
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>} JSON response with user data and JWT token
+ * 
+ * @example
+ * POST /auth/login
+ * {
+ *   "email": "john@example.com",
+ *   "password": "password123",
+ *   "role": "CUSTOMER"
+ * }
+ */
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;

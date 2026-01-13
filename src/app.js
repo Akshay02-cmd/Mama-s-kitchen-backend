@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Express application configuration and middleware setup
+ * @module app
+ * @requires express
+ * @requires dotenv
+ * @requires cookie-parser
+ * @requires ./routes/auth.routes
+ * @requires ./routes/profile.routes
+ * @requires ./routes/mess.routes
+ */
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -7,6 +18,10 @@ import messRouter from './routes/mess.routes.js';
 
 dotenv.config();
 
+/**
+ * Express application instance
+ * @type {express.Application}
+ */
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
