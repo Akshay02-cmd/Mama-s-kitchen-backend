@@ -113,4 +113,39 @@ const login = async (req, res) => {
   }
 };
 
-export { login, register };
+/**
+ * Logout user by clearing authentication cookie
+ * 
+ * @function logout
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {void} JSON response confirming logout
+ * 
+ * @example
+ * POST /auth/logout
+ * Cookie: token=<jwt-token>
+ * 
+ * @description
+ * Clears the httpOnly authentication cookie and ends the user session.
+ * For Bearer token authentication, client should remove token from storage.
+ */
+
+const logout = (req, res) => {
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0), 
+    });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: "Logout failed" });
+  }
+};
+
+export { login, register, logout };
