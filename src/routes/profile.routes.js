@@ -20,13 +20,13 @@ const router = express.Router();
 
 router
   .route("/customer")
-  .get(auth, authorizeRoles("CUSTOMER"),GetProfileCustomer)
+  .get(auth, authorizeRoles("CUSTOMER","ADMIN","OWNER"),GetProfileCustomer)
   .post(auth, authorizeRoles("CUSTOMER"),validate(CustomerSchema),CreateProfileCustomer)
   .put(auth,authorizeRoles("CUSTOMER"),validate(UpdateProfileSchema),UpdateProfileCustomer);
 
 router
   .route("/owner")
-  .get(auth, authorizeRoles("OWNER"),GetProfileOwner)
+  .get(auth, authorizeRoles("CUSTOMER","ADMIN","OWNER"),GetProfileOwner)
   .post(auth, authorizeRoles("OWNER"),validate(OwnerSchema),CreateProfileOwner)
   .put(auth, authorizeRoles("OWNER"),validate(UpdateProfileSchema), UpdateProfileOwner);
 
