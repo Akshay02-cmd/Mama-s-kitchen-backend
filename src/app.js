@@ -9,12 +9,18 @@
  * @requires ./routes/mess.routes
  */
 
-import express from 'express';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import authRouter from './routes/auth.routes.js';
-import profileRouter from  './routes/profile.routes.js';
-import messRouter from './routes/mess.routes.js';
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import authRouter from "./routes/auth.routes.js";
+import profileRouter from "./routes/profile.routes.js";
+import menuRouter from "./routes/menu.routes.js";
+import contactRouter from "./routes/contact.routes.js";
+import reviewRouter from "./routes/review.routes.js";
+import orderRouter from "./routes/orders.routes.js";
+import getUserRouter from "./routes/getUser.routes.js";
+
+// Load environment variables from .env file
 
 dotenv.config();
 
@@ -25,20 +31,23 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.get('/', (req, res) => {
-  res.send('Welcome to Mama\'s Kitchen API');
+app.get("/", (req, res) => {
+  res.redirect("/about");
 });
 
-app.use('/auth', authRouter);  
-app.use('/profile',profileRouter);
-app.use('/mess', messRouter);
-app.use('/contacts',(req, res) => {
-  res.send('Contacts endpoint is under construction');
-});
+app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
+app.use("/menu", menuRouter);
+
+//under construction routes
+app.use("/users", getUserRouter);
+app.use("/orders", orderRouter);
+app.use("/reviews", reviewRouter);
+app.use("/contacts", contactRouter);
 
 // Handle 404 for undefined routes
 app.use((req, res) => {
-  res.status(404).send('Endpoint not found');
+  res.status(404).send("Endpoint not found");
 });
 
 export default app;
