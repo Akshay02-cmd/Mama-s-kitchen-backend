@@ -54,8 +54,29 @@ const deleteMess = async (req, res) => {
 };
 
 const getallMesses = async (req, res) => {
-  const messes = await MESS.find({});
-  if (!messes) {
+  const { area, search, is_active } = req.query;
+  const queryObject = {};
+
+  if (area) {
+    queryObject.area = { $regex: area, $options: "i" };
+  }
+  if (search) {
+    queryObject.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+  if (is_active) {
+    queryObject.is_active = is_active === "true";
+  }
+
+  if (Object.keys(queryObject).length === 0) {
+    const messes = await MESS.find({});
+  }
+  const messes = await MESS.find(queryObject)
+    .populate("ownerId", "name email")
+    .sort({ createdAt: -1 });
+  if (!messes || messes.length === 0) {
     throw new NotFoundError("No messes found");
   }
   res.status(StatusCodes.OK).json({ messes });
