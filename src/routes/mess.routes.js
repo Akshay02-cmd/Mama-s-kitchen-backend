@@ -17,23 +17,23 @@ import {
 const router = express.Router();
 router
   .route("/")
-  .get(auth, authorizeRoles("ADMIN", "OWNER"), getallMesses)
+  .get(auth, authorizeRoles("OWNER"), getallMesses)
   .post(
     auth,
-    authorizeRoles("ADMIN", "OWNER"),
+    authorizeRoles("OWNER"),
     validate(MessSchema),
     createMess,
   );
 
 router
   .route("/:messId")
-  .get(auth, authorizeRoles("ADMIN", "OWNER"), getMess)
+  .get(auth, authorizeRoles("OWNER"), getMess)
   .put(
     auth,
-    authorizeRoles("ADMIN", "OWNER"),
+    authorizeRoles("OWNER"),
     validate(UpdateMessSchema),
     updateMess,
   )
-  .delete(auth, authorizeRoles("ADMIN", "OWNER"), deleteMess);
+  .delete(auth, authorizeRoles("OWNER"), deleteMess);
   
 export default router;

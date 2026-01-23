@@ -1,33 +1,7 @@
-/**
- * @fileoverview Mess management controller for CRUD operations
- * @module controllers/mess.controller
- * @requires http-status-codes
- * @requires ../model/Mess.model
- * @requires ../errors/index
- */
-
 import { StatusCodes } from "http-status-codes";
 import MESS from "../model/Mess.model.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
-/**
- * Create a new mess/catering service
- * 
- * @async
- * @function createMess
- * @param {Object} req - Express request object
- * @param {Object} req.user - Authenticated user from JWT
- * @param {string} req.user.userId - Owner's user ID
- * @param {Object} req.body - Mess data
- * @param {string} req.body.messName - Mess name
- * @param {string} req.body.area - Location area
- * @param {string} req.body.phone - Contact number
- * @param {string} req.body.address - Full address
- * @param {string} req.body.description - Mess description
- * @param {Object} res - Express response object
- * @returns {Promise<void>} JSON response with created mess
- * @throws {BadRequestError} If mess creation fails
- */
 const createMess = async (req, res) => {
   const { userId } = req.user;
   const { messName, area, phone, address, description } = req.body;
@@ -62,7 +36,7 @@ const updateMess = async (req, res) => {
   const mess = await MESS.findByIdAndUpdate(
     messid,
     { name, area, phone, address, description },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   );
   if (!mess) {
     throw new NotFoundError("Mess not found");

@@ -22,7 +22,7 @@ export const UpdateProfileCustomer = async (req, res) => {
   const userId = req.user.userId;
   const { phone, address } = req.body;
 
-  const profile = await CustomerProfile.findOneAndUpdate(
+  const profile = await CUSTOMER.findOneAndUpdate(
     { userId },
     { phone, address },
     { new: true, runValidators: true }
@@ -40,7 +40,7 @@ export const UpdateProfileCustomer = async (req, res) => {
 
 export const GetProfileCustomer = async (req, res) => {
   const userId = req.user.userId;
-  const profile = await CUSTOMER.findById(userId);
+  const profile = await CUSTOMER.findOne({ userId });
   if (!profile) {
     throw new NotFoundError("Customer profile not found");
   }
@@ -82,5 +82,4 @@ export const GetProfileOwner = async (req, res) => {
     throw new NotFoundError("Owner profile not found");
   }
   res.status(StatusCodes.OK).json({ profile });
-  res.send("get Owner profile");
 };
