@@ -18,13 +18,13 @@ import {
 
 const router = express.Router();
 
-router
+router // for individual customer profile routes
   .route("/customer")
-  .get(auth, authorizeRoles("CUSTOMER","ADMIN","OWNER"),GetProfileCustomer)
+  .get(auth, authorizeRoles("CUSTOMER","ADMIN","OWNER"),GetProfileCustomer) 
   .post(auth, authorizeRoles("CUSTOMER"),validate(CustomerSchema),CreateProfileCustomer)
   .put(auth,authorizeRoles("CUSTOMER"),validate(UpdateProfileSchema),UpdateProfileCustomer);
 
-router
+router // for individual mess owner profile routes
   .route("/owner")
   .get(auth, authorizeRoles("CUSTOMER","ADMIN","OWNER"),GetProfileOwner)
   .post(auth, authorizeRoles("OWNER"),validate(OwnerSchema),CreateProfileOwner)

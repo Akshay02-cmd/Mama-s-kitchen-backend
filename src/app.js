@@ -1,33 +1,19 @@
-/**
- * @fileoverview Express application configuration and middleware setup
- * @module app
- * @requires express
- * @requires dotenv
- * @requires cookie-parser
- * @requires ./routes/auth.routes
- * @requires ./routes/profile.routes
- * @requires ./routes/mess.routes
- */
-
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import authRouter from "./routes/auth.routes.js";
-import profileRouter from "./routes/profile.routes.js";
-import menuRouter from "./routes/menu.routes.js";
-import contactRouter from "./routes/contact.routes.js";
-import reviewRouter from "./routes/review.routes.js";
-import orderRouter from "./routes/orders.routes.js";
-import getUserRouter from "./routes/getUser.routes.js";
-
-// Load environment variables from .env file
+import {
+  authRouter,
+  profileRouter,
+  menuRouter,
+  messRouter,
+  contactRouter,
+  reviewRouter,
+  orderRouter,
+  getUserRouter,
+} from "./routes/index.js";
 
 dotenv.config();
 
-/**
- * Express application instance
- * @type {express.Application}
- */
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -38,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/menu", menuRouter);
+app.use("/mess", messRouter);
 
 //under construction routes
 app.use("/users", getUserRouter);
