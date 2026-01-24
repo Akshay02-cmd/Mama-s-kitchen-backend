@@ -6,11 +6,11 @@ import {
   profileRouter,
   menuRouter,
   messRouter,
-  contactRouter,
-  reviewRouter,
   orderRouter,
   getUserRouter,
 } from "./routes/index.js";
+import errorHandler from "./middleware/error.middelware.js";
+import notfoundMiddleware from "./middleware/notfound.middelware.js";
 
 dotenv.config();
 
@@ -25,27 +25,14 @@ app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/menu", menuRouter);
 app.use("/mess", messRouter);
-
-//under construction routes
 app.use("/users", getUserRouter);
 app.use("/orders", orderRouter);
-app.use("/reviews", reviewRouter);
-app.use("/contacts", contactRouter);
+
 
 // Handle 404 for undefined routes
-app.use((req, res) => {
-  res.status(404).send("Endpoint not found");
-});
+app.use(notfoundMiddleware);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  res.status(statusCode).json({
-    success: false,
-    message,
-    stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
-  });
-});
+app.use(errorHandler);
 
 export default app;
