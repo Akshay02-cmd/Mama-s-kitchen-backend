@@ -27,6 +27,7 @@ app.use("/menu", menuRouter);
 app.use("/mess", messRouter);
 app.use("/users", getUserRouter);
 app.use("/orders", orderRouter);
+app.use("/reviews", reviewRouter);
 
 
 // Handle 404 for undefined routes
