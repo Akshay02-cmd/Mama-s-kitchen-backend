@@ -1,6 +1,6 @@
-import Review from "../model/review.model";
+import Review from "../model/review.model.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../errors";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 const createreview = async (req, res) => {
   const review = await Review.create({ ...req.body });
@@ -50,4 +50,10 @@ const deletereview = async (req, res) => {
     .json({ success: true, message: "Review deleted successfully" });
 };
 
-export { createreview, getAllReviews, updatereview, deletereview };
+export {
+  createreview,
+  getAllReviews,
+  getReviewById,
+  updatereview,
+  deletereview,
+};

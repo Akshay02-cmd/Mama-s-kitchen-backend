@@ -8,6 +8,8 @@ import {
   messRouter,
   orderRouter,
   getUserRouter,
+  reviewRouter,
+  contactusRouter,
 } from "./routes/index.js";
 import errorHandler from "./middleware/error.middelware.js";
 import notfoundMiddleware from "./middleware/notfound.middelware.js";
@@ -28,6 +30,7 @@ app.use("/mess", messRouter);
 app.use("/users", getUserRouter);
 app.use("/orders", orderRouter);
 app.use("/reviews", reviewRouter);
+app.use("/contacts", contactusRouter);
 
 
 // Handle 404 for undefined routes

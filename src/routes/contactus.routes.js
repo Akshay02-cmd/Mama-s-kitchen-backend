@@ -5,7 +5,8 @@ import {
   getContactUsById,
   GroupContactUsByUser,
   deleteContactUs,
-} from "../controllers/contactus.controller.js";
+  deleteAllContactUs,
+} from "../controllers/contactus.controllers.js";
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.route("/").post(createContactUs);
 router.route("/:id").get(getContactUsById).delete(deleteContactUs);
 router.route("/getallContacts").get(getAllContactUs);
 router.route("/groupbyuser").get(GroupContactUsByUser);
+router.route("/deleteall").delete(deleteAllContactUs);
 
 export default router;

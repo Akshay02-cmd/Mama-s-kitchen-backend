@@ -1,4 +1,4 @@
-import ContactUs from "../model/contactus.model";
+import ContactUs from "../model/contactus.model.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
@@ -81,3 +81,20 @@ export const deleteContactUs = async (req, res) => {
       .json({ success: false, message: error.message });
   }
 };
+
+export const deleteAllContactUs = async (req, res) => {
+  try {
+    await ContactUs.deleteMany({});
+    res
+      .status(StatusCodes.OK)
+      .json({
+        success: true,
+        message: "All contact us messages deleted successfully",
+      });
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: error.message });
+  }
+};
+
