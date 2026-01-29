@@ -7,6 +7,7 @@
 
 import { StatusCodes } from "http-status-codes";
 import User from "../model/user.model.js";
+import catchAsync from "../utils/catchAsync.js";
 
 /**
  * Register a new user account
@@ -31,8 +32,7 @@ import User from "../model/user.model.js";
  *   "role": "CUSTOMER"
  * }
  */
-const register = async (req, res) => {
-  try {
+const register = catchAsync(async (req, res) => {
     const user = await User.create({ ...req.body });
     const token = user.createJWT();
     res.cookie("token", token, {
@@ -46,10 +46,7 @@ const register = async (req, res) => {
         role: user.role,
       },
     });
-  } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
-  }
-};
+});
 
 /**
  * Authenticate user and generate JWT token
@@ -72,8 +69,7 @@ const register = async (req, res) => {
  *   "role": "CUSTOMER"
  * }
  */
-const login = async (req, res) => {
-  try {
+const login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
       return res
@@ -106,12 +102,8 @@ const login = async (req, res) => {
       },
       user1: req.user,
     });
-  } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: error.message });
-  }
-};
+});
+
 
 /**
  * Logout user by clearing authentication cookie
@@ -130,8 +122,7 @@ const login = async (req, res) => {
  * For Bearer token authentication, client should remove token from storage.
  */
 
-const logout = (req, res) => {
-  try {
+const logout = catchAsync(async (req, res) => {
     res.cookie("token", "", {
       httpOnly: true,
       expires: new Date(0), 
@@ -141,11 +132,6 @@ const logout = (req, res) => {
       success: true,
       message: "Logged out successfully",
     });
-  } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: "Logout failed" });
-  }
-};
+});
 
 export { login, register, logout };
