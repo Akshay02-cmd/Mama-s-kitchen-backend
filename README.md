@@ -41,9 +41,7 @@
 
 ### Planned Features
 
-- 🔜 **Order Management**: Complete order processing system
 - 🔜 **Payment Integration**: Razorpay payment gateway
-- 🔜 **Reviews & Ratings**: Customer feedback system
 - 🔜 **Image Upload**: Meal and mess image management
 - 🔜 **Search & Filters**: Advanced search and filtering capabilities
 - 🔜 **Real-time Notifications**: Order status updates

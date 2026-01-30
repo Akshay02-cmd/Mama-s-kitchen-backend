@@ -7,7 +7,7 @@ const OrderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    items: [
+    orderItems: [
       {
         mealId: {
           type: mongoose.Schema.Types.ObjectId,
@@ -61,7 +61,7 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       maxlength: 500,
     },
-    deliverytime: Date,
+    deliveryTime: Date,
   },
   { timestamps: true },
 );
