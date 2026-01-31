@@ -10,9 +10,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config();
+import config from "../config/config.js"; // Import config to access JWT secret
 
 /**
  * User schema definition
@@ -70,8 +68,8 @@ UserSchema.pre("save", async function () {
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name, role: this.role },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_LIFETIME || "30d" }
+    config.jwt.secret,
+    { expiresIn: config.jwt.accessExpirationMinutes || "30d" }
   );
 };
 

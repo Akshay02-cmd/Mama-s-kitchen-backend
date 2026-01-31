@@ -1,11 +1,9 @@
 import app from "./app.js";
-import dotenv from "dotenv";
-import connectDB from "./config/db.config.js";
+import config from "./config/config.js";
+import connectDB from "./services/connectDB.js";
 
-dotenv.config();
-
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
+const PORT = config.port || 5000;
+const MONGO_URI = config.mongoose.url;
 
 const start = async () => {
   if (!PORT) {
@@ -13,7 +11,7 @@ const start = async () => {
     process.exit(1);
   }
   if (!MONGO_URI) {
-    console.error("MONGO_URI is not defined in environment variables");
+    console.error("MONGODB_URL is not defined in environment variables");
     process.exit(1);
   }
 
