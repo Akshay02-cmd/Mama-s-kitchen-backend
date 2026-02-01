@@ -14,11 +14,13 @@ import {
 
 const router = express.Router();
 
-router.route("/").get(auth, authorizeRoles("OWNER", "CUSTOMER"), getallMeals);
+router
+  .route("/")
+  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getallMeals);
 
 router
   .route("/:mealId")
-  .get(auth, authorizeRoles("OWNER", "CUSTOMER"), getMeal)
+  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getMeal)
   .post(auth, authorizeRoles("OWNER"), validate(MealSchema), createMeal)
   .put(auth, authorizeRoles("OWNER"), validate(UpdateMealSchema), updateMeal)
   .delete(auth, authorizeRoles("OWNER"), deleteMeal);

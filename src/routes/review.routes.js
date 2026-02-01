@@ -1,4 +1,10 @@
 import express from "express";
+import validate from "../middleware/validator.middelware.js";
+import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
+import {
+  reviewSchema,
+  reviewUpdateSchema,
+} from "../validators/review.validators.js";
 import {
   createreview,
   getAllReviews,
@@ -9,8 +15,20 @@ import {
 
 const router = express.Router();
 
-router.route("/").get(getAllReviews).post(createreview);
+router
+  .route("/")
+  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getAllReviews)
+  .post(auth, authorizeRoles("CUSTOMER"), validate(reviewSchema), createreview);
 
-router.route("/:id").get(getReviewById).put(updatereview).delete(deletereview);
+router
+  .route("/:id")
+  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getReviewById)
+  .put(
+    auth,
+    authorizeRoles("CUSTOMER"),
+    validate(reviewUpdateSchema),
+    updatereview,
+  )
+  .delete(auth, authorizeRoles("CUSTOMER"), deletereview);
 
 export default router;

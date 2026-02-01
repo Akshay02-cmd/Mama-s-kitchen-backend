@@ -17,7 +17,7 @@ import {
 const router = express.Router();
 router
   .route("/")
-  .get(auth, authorizeRoles("OWNER"), getallMesses)
+  .get(auth, authorizeRoles("ADMIN"), getallMesses)
   .post(
     auth,
     authorizeRoles("OWNER"),
@@ -27,7 +27,7 @@ router
 
 router
   .route("/:messId")
-  .get(auth, authorizeRoles("OWNER"), getMess)
+  .get(auth, authorizeRoles("ADMIN","OWNER"), getMess)
   .put(
     auth,
     authorizeRoles("OWNER"),

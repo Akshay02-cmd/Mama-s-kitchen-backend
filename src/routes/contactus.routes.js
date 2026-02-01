@@ -1,4 +1,6 @@
 import express from "express";
+import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
+import contactUSchema from "../validators/contactus.validators.js";
 import {
   createContactUs,
   getAllContactUs,
@@ -10,10 +12,9 @@ import {
 
 const router = express.Router();
 
-router.route("/").post(createContactUs);
-router.route("/:id").get(getContactUsById).delete(deleteContactUs);
-router.route("/getallContacts").get(getAllContactUs);
-router.route("/groupbyuser").get(GroupContactUsByUser);
-router.route("/deleteall").delete(deleteAllContactUs);
+router.route("/").post(authorizeRoles("customer"), createContactUs).delete(authorizeRoles("ADMIN"), deleteAllContactUs).get(authorizeRoles("ADMIN"), getAllContactUs);
+router.route("/:id").get(authorizeRoles("ADMIN"), getContactUsById).delete(authorizeRoles("ADMIN"), deleteContactUs);
+router.route("/groupbyuser").get(authorizeRoles("ADMIN"), GroupContactUsByUser);
+
 
 export default router;
