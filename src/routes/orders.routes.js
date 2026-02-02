@@ -2,7 +2,10 @@ import express from "express";
 import auth from "../middleware/auth.middleware.js";
 import validate from "../middleware/validator.middelware.js";
 import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
-import {createOrderSchema,updateOrderStatusSchema} from "../validators/orders.validators.js";
+import {
+  createOrderSchema,
+  updateOrderStatusSchema,
+} from "../validators/orders.validators.js";
 
 import {
   createOrder,
@@ -18,32 +21,41 @@ import {
 } from "../controllers/order.controller.js";
 
 const router = express.Router();
-router
-  .get("/", getAllOrders)
-  .post("/", auth, authorizeRoles("CUSTOMER"), validate(createOrderSchema), createOrder)
-  .put("/:id", auth, authorizeRoles("OWNER"), validate(updateOrderStatusSchema), updateOrderStatus)
-  .delete("/:id", auth, authorizeRoles("OWNER"), deleteOrder);
 
-router.get("/user/orders", auth, getUserOrders);
-router.delete("/user/orders/clear", auth, clearUserOrders);
-router.get(
-  "/status/:status",
-  auth,
-  authorizeRoles("OWNER"),
-  getOrdersByStatus,
-);
-router.get(
-  "/date-range",
-  auth,
-  authorizeRoles("OWNER"),
-  getOrdersWithinDateRange,
-);
-router.get(
-  "/total-sales",
-  auth,
-  authorizeRoles("OWNER"),
-  getTotalSales,
-);
-router.get("/:id", auth, getOrder);
+router
+  .route("/userorders")
+  .get(auth, getUserOrders)
+  .delete(auth, clearUserOrders);
+
+router
+  .route("/status/:status")
+  .get(auth, authorizeRoles("OWNER"), getOrdersByStatus);
+
+router
+  .route("/date-range")
+  .get(auth, authorizeRoles("OWNER"), getOrdersWithinDateRange);
+
+router.route("/total-sales").get(auth, authorizeRoles("OWNER"), getTotalSales);
+
+router
+  .route("/")
+  .get(auth, getAllOrders)
+  .post(
+    auth,
+    authorizeRoles("CUSTOMER"),
+    validate(createOrderSchema),
+    createOrder,
+  );
+
+router
+  .route("/:id")
+  .get(auth, getOrder)
+  .put(
+    auth,
+    authorizeRoles("OWNER"),
+    validate(updateOrderStatusSchema),
+    updateOrderStatus,
+  )
+  .delete(auth, authorizeRoles("OWNER"), deleteOrder);
 
 export default router;

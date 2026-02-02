@@ -1,6 +1,8 @@
 import express from "express";
+import auth from "../middleware/auth.middleware.js";
+import validate from "../middleware/validator.middelware.js";
 import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
-import contactUSchema from "../validators/contactus.validators.js";
+import contactUsSchema from "../validators/contactus.validators.js";
 import {
   createContactUs,
   getAllContactUs,
@@ -12,9 +14,20 @@ import {
 
 const router = express.Router();
 
-router.route("/").post(authorizeRoles("customer"), createContactUs).delete(authorizeRoles("ADMIN"), deleteAllContactUs).get(authorizeRoles("ADMIN"), getAllContactUs);
-router.route("/:id").get(authorizeRoles("ADMIN"), getContactUsById).delete(authorizeRoles("ADMIN"), deleteContactUs);
-router.route("/groupbyuser").get(authorizeRoles("ADMIN"), GroupContactUsByUser);
+router
+  .route("/")
+  .get(auth, authorizeRoles("ADMIN"), getAllContactUs)
+  .post(auth, authorizeRoles("CUSTOMER"), validate(contactUsSchema), createContactUs)
+  .delete(auth, authorizeRoles("ADMIN"), deleteAllContactUs);
+
+router
+  .route("/groupbyuser")
+  .get(auth, authorizeRoles("ADMIN"), GroupContactUsByUser);
+
+router
+  .route("/:id")
+  .get(auth, authorizeRoles("ADMIN"), getContactUsById)
+  .delete(auth, authorizeRoles("ADMIN"), deleteContactUs);
 
 
 export default router;

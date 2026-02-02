@@ -1,4 +1,5 @@
 import express from "express";
+import auth from "../middleware/auth.middleware.js";
 import validate from "../middleware/validator.middelware.js";
 import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
 import {
