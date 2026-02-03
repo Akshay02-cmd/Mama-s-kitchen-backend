@@ -41,6 +41,7 @@ export const UpdateProfileCustomer = catchAsync(async (req, res) => {
 
 export const GetProfileCustomer = catchAsync(async (req, res) => {
   const userId = req.user.userId;
+  console.log("Fetching profile for userId:", userId);
   const profile = await CUSTOMER.findOne({ userId });
   if (!profile) {
     throw new NotFoundError("Customer profile not found");

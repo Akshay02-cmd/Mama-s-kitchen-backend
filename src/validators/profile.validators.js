@@ -3,7 +3,6 @@ import Joi from "joi";
 const objectIdSchema = Joi.string().length(24).hex().required();
 
 export const CustomerSchema = Joi.object({
-  userId: objectIdSchema,
   phone: Joi.string()
     .pattern(/^[6-9]\d{9}$/)
     .required(),
@@ -11,7 +10,6 @@ export const CustomerSchema = Joi.object({
 });
 
 export const OwnerSchema = Joi.object({
-  usertId: objectIdSchema,
   phone: Joi.string()
     .pattern(/^[6-9]\d{9}$/)
     .required(),
@@ -26,7 +24,6 @@ export const UpdateProfileSchema = Joi.object({
 });
 
 export const MessSchema = Joi.object({
-  ownerId: objectIdSchema,
   name: Joi.string().min(3).max(100).required(),
   area: Joi.string().min(3).max(100).required(),
   phone: Joi.string()
@@ -34,7 +31,7 @@ export const MessSchema = Joi.object({
     .required(),
   address: Joi.string().min(10).max(300).required(),
   description: Joi.string().min(10).max(500).required(),
-  is_Active: Joi.boolean().required(),
+  is_Active: Joi.boolean().default("true"),
 });
 
 export const UpdateMessSchema = Joi.object({

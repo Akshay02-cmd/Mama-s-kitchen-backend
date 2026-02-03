@@ -25,8 +25,8 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
-app.use("/menu", menuRouter);
 app.use("/mess", messRouter);
+app.use("/menu", menuRouter);
 app.use("/users", getUserRouter);
 app.use("/orders", orderRouter);
 app.use("/reviews", reviewRouter);

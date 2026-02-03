@@ -5,11 +5,11 @@ import catchAsync from "../utils/catchAsync.js";
 
 const createMess = catchAsync(async (req, res) => {
   const { userId } = req.user;
-  const { messName, area, phone, address, description } = req.body;
+  const { name, area, phone, address, description } = req.body;
 
   const mess = await MESS.create({
     ownerId: userId,
-    name: messName,
+    name,
     area,
     phone,
     address,
@@ -23,8 +23,11 @@ const createMess = catchAsync(async (req, res) => {
 });
 
 const getMess = catchAsync(async (req, res) => {
-  const { messid } = req.params;
-  const mess = await MESS.findById(messid);
+  const { id } = req.params;
+  if(!id){
+    throw new NotFoundError("id is not passed");
+  }
+  const mess = await MESS.findById(id);
   if (!mess) {
     throw new NotFoundError("Mess not found");
   }
@@ -32,10 +35,10 @@ const getMess = catchAsync(async (req, res) => {
 });
 
 const updateMess = catchAsync(async (req, res) => {
-  const { messid } = req.params;
+  const { id } = req.params;
   const { name, area, phone, address, description } = req.body;
   const mess = await MESS.findByIdAndUpdate(
-    messid,
+    id,
     { name, area, phone, address, description },
     { new: true, runValidators: true },
   );
@@ -46,8 +49,8 @@ const updateMess = catchAsync(async (req, res) => {
 });
 
 const deleteMess = catchAsync(async (req, res) => {
-  const { messid } = req.params;
-  const mess = await MESS.findByIdAndDelete(messid);
+  const { id } = req.params;
+  const mess = await MESS.findByIdAndDelete(id);
   if (!mess) {
     throw new NotFoundError("Mess not found");
   }
@@ -55,7 +58,7 @@ const deleteMess = catchAsync(async (req, res) => {
 });
 
 const getallMesses = catchAsync(async (req, res) => {
-  const { area, search, is_active } = req.query;
+  const { area, search, is_Active } = req.query;
   const queryObject = {};
 
   if (area) {
@@ -67,8 +70,8 @@ const getallMesses = catchAsync(async (req, res) => {
       { description: { $regex: search, $options: "i" } },
     ];
   }
-  if (is_active) {
-    queryObject.is_active = is_active === "true";
+  if (is_Active) {
+    queryObject.is_Active = is_Active === "true";
   }
 
   if (Object.keys(queryObject).length === 0) {
