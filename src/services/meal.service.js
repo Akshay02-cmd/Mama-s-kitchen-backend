@@ -83,11 +83,9 @@ export const getAllMeals = async (filters = {}) => {
     .populate("messId", "name area address")
     .sort({ createdAt: -1 });
 
-  if (!meals || meals.length === 0) {
-    throw new NotFoundError("No meals found");
-  }
-
-  return meals;
+  // Return empty array if no meals found instead of throwing error
+  // This allows the frontend to show "No meals available" message
+  return meals || [];
 };
 
 /**

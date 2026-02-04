@@ -17,12 +17,12 @@ import {
 const router = express.Router();
 router
   .route("/")
-  .get(auth, authorizeRoles("ADMIN"), getallMesses)
+  .get(getallMesses) // Public access to view all messes
   .post(auth, authorizeRoles("OWNER"), validate(MessSchema), createMess);
 
 router
   .route("/:id")
-  .get(auth, getMess)
+  .get(getMess) // Public access to view mess details
   .put(auth, authorizeRoles("OWNER"), validate(UpdateMessSchema), updateMess)
   .delete(auth, authorizeRoles("OWNER"), deleteMess);
 

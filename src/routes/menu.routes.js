@@ -16,11 +16,11 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getallMeals);
+  .get(getallMeals); // Public access to view all meals
 
 router
   .route("/:mealid")
-  .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getMeal)
+  .get(getMeal) // Public access to view meal details
   .post(auth, authorizeRoles("OWNER"), validate(MealSchema), createMeal)
   .put(auth, authorizeRoles("OWNER"), validate(UpdateMealSchema), updateMeal)
   .delete(auth, authorizeRoles("OWNER"), deleteMeal);

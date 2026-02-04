@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import {
   authRouter,
@@ -17,6 +18,15 @@ import notfoundMiddleware from "./middleware/notfound.middelware.js";
 
 
 const app = express();
+
+// CORS configuration
+app.use(cors({
+  origin: 'http://localhost:5173', // Vite default port
+  credentials: true, // Allow cookies
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.get("/", (req, res) => {

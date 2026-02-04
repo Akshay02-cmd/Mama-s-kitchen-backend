@@ -87,11 +87,8 @@ export const getAllMesses = async (filters = {}) => {
     .populate("ownerId", "name email")
     .sort({ createdAt: -1 });
 
-  if (!messes || messes.length === 0) {
-    throw new NotFoundError("No messes found");
-  }
-
-  return messes;
+  // Return empty array if no messes found instead of throwing error
+  return messes || [];
 };
 
 /**
