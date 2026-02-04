@@ -19,7 +19,7 @@ router
   .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getallMeals);
 
 router
-  .route("/:mealId")
+  .route("/:mealid")
   .get(auth, authorizeRoles("ADMIN", "OWNER", "CUSTOMER"), getMeal)
   .post(auth, authorizeRoles("OWNER"), validate(MealSchema), createMeal)
   .put(auth, authorizeRoles("OWNER"), validate(UpdateMealSchema), updateMeal)

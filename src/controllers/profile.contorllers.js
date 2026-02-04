@@ -1,38 +1,14 @@
-import CUSTOMER from "../model/CustomerProfile.model.js";
-import OWNER from "../model/OwnerProfile.model.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../errors/index.js";
+import { profileService } from "../services/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const CreateProfileCustomer = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  const { phone, address } = req.body;
-
-  const profile = await CUSTOMER.create({
-    userId,
-    phone,
-    address,
-  });
-  if (!profile) {
-    throw new BadRequestError("Unable to create customer profile");
-  }
+  const profile = await profileService.createCustomerProfile(req.user.userId, req.body);
   res.status(StatusCodes.CREATED).json({ profile });
 });
 
 export const UpdateProfileCustomer = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  const { phone, address } = req.body;
-
-  const profile = await CUSTOMER.findOneAndUpdate(
-    { userId },
-    { phone, address },
-    { new: true, runValidators: true }
-  );
-
-  if (!profile) {
-    throw new NotFoundError("Customer profile not found");
-  }
-
+  const profile = await profileService.updateCustomerProfile(req.user.userId, req.body);
   res.status(StatusCodes.OK).json({
     success: true,
     profile,
@@ -40,48 +16,21 @@ export const UpdateProfileCustomer = catchAsync(async (req, res) => {
 });
 
 export const GetProfileCustomer = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  console.log("Fetching profile for userId:", userId);
-  const profile = await CUSTOMER.findOne({ userId });
-  if (!profile) {
-    throw new NotFoundError("Customer profile not found");
-  }
+  const profile = await profileService.getCustomerProfile(req.user.userId);
   res.status(StatusCodes.OK).json({ profile });
 });
 
 export const CreateProfileOwner = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  const { phone, address } = req.body;
-  const profile = await OWNER.create({
-    userId,
-    phone,
-    address,
-  });
-  if (!profile) {
-    throw new BadRequestError("Unable to create owner profile");
-  }
+  const profile = await profileService.createOwnerProfile(req.user.userId, req.body);
   res.status(StatusCodes.CREATED).json({ profile });
 });
 
 export const UpdateProfileOwner = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  const { phone, address } = req.body;
-  const profile = await OWNER.findOneAndUpdate(
-    { userId },
-    { phone, address },
-    { new: true, runValidators: true }
-  );  
-  if (!profile) {
-    throw new NotFoundError("Owner profile not found");
-  }
+  const profile = await profileService.updateOwnerProfile(req.user.userId, req.body);
   res.status(StatusCodes.OK).json({ profile });
 });
 
 export const GetProfileOwner = catchAsync(async (req, res) => {
-  const userId = req.user.userId;
-  const profile = await OWNER.findOne({ userId });
-  if (!profile) {
-    throw new NotFoundError("Owner profile not found");
-  }
+  const profile = await profileService.getOwnerProfile(req.user.userId);
   res.status(StatusCodes.OK).json({ profile });
 });

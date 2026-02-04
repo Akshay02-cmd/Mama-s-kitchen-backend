@@ -1,51 +1,33 @@
-import Review from "../model/review.model.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../errors/index.js";
+import { reviewService } from "../services/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 const createreview = catchAsync(async (req, res) => {
-  const review = await Review.create({ ...req.body });
-  if (!review) {
-    throw new BadRequestError("Invalid review data");
-  }
+  const review = await reviewService.createReview(req.body);
   res.status(StatusCodes.CREATED).json({ success: true, review });
 });
 
 const getAllReviews = catchAsync(async (req, res) => {
-  const reviews = await Review.find({});
-  if (reviews.length === 0) {
-    throw new NotFoundError("No reviews found");
-  }
+  const filters = req.query;
+  const reviews = await reviewService.getAllReviews(filters);
   res.status(StatusCodes.OK).json({ success: true, reviews });
 });
 
 const getReviewById = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const review = await Review.findById(id);
-  if (!review) {
-    throw new NotFoundError("Review not found");
-  }
+  const review = await reviewService.getReviewById(id);
   res.status(StatusCodes.OK).json({ success: true, review });
 });
 
 const updatereview = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const review = await Review.findByIdAndUpdate(id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!review) {
-    throw new NotFoundError("Review not found");
-  }
+  const review = await reviewService.updateReview(id, req.user.userId, req.body);
   res.status(StatusCodes.OK).json({ success: true, review });
 });
 
 const deletereview = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const review = await Review.findByIdAndDelete(id);
-  if (!review) {
-    throw new NotFoundError("Review not found");
-  }
+  await reviewService.deleteReview(id, req.user.userId);
   res
     .status(StatusCodes.OK)
     .json({ success: true, message: "Review deleted successfully" });

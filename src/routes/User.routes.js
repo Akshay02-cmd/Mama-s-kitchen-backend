@@ -1,13 +1,17 @@
 import express from "express";
-const router = express.Router();
+import auth from "../middleware/auth.middleware.js";
+import authorizeRoles from "../middleware/authorizeRoles.middelware.js";
 import {
   getallUsers,
   getallCustomers,
   getallOwners,
 } from "../controllers/User.controller.js";
 
-router.get("/", getallUsers);
-router.get("/customers", getallCustomers);
-router.get("/owners", getallOwners);
+const router = express.Router();
+
+// All user routes require ADMIN authentication
+router.get("/", auth, authorizeRoles("ADMIN"), getallUsers);
+router.get("/customers", auth, authorizeRoles("ADMIN"), getallCustomers);
+router.get("/owners", auth, authorizeRoles("ADMIN"), getallOwners);
 
 export default router;

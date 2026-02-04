@@ -1,64 +1,59 @@
 import { StatusCodes } from "http-status-codes";
-import MEAL from "../model/Meal.model.js";
-import { BadRequestError, NotFoundError } from "../errors/index.js";
+import { mealService, messService } from "../services/index.js";
+import { BadRequestError, ForbiddenError } from "../errors/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 const createMeal = catchAsync(async (req, res) => {
-  const { messid } = req.params;
-  const { name, mealType, is_Veg, description, price, is_Available } = req.body;
-
-  const meal = await MEAL.create({
-    messId: messid,
-    name,
-    mealType,
-    is_Veg,
-    description,
-    price,
-    is_Available,
-  });
-  if (!meal) {
-    throw new BadRequestError("Unable to create meal");
+  // Get messId from request body (should be provided by frontend)
+  // Or get from owner's mess if they only have one mess
+  const { messId } = req.body;
+  
+  if (!messId) {
+    // If messId not provided, try to get owner's first mess
+    const ownerMesses = await messService.getMessesByOwnerId(req.user.userId);
+    
+    if (!ownerMesses || ownerMesses.length === 0) {
+      throw new BadRequestError("Owner must have a mess before creating meals");
+    }
+    
+    // Use the first mess if multiple exist
+    const messIdToUse = ownerMesses[0]._id.toString();
+    const meal = await mealService.createMeal(messIdToUse, req.body);
+    res.status(StatusCodes.CREATED).json({ meal });
+  } else {
+    // Verify the mess belongs to the owner
+    const isOwner = await messService.verifyMessOwnership(messId, req.user.userId);
+    
+    if (!isOwner) {
+      throw new ForbiddenError("You can only create meals for your own mess");
+    }
+    
+    const meal = await mealService.createMeal(messId, req.body);
+    res.status(StatusCodes.CREATED).json({ meal });
   }
-  res.status(StatusCodes.CREATED).json({ meal });
 });
 
 const getMeal = catchAsync(async (req, res) => {
   const { mealid } = req.params;
-  const meal = await MEAL.findById(mealid);
-  if (!meal) {
-    throw new NotFoundError("Meal not found");
-  }
+  const meal = await mealService.getMealById(mealid);
   res.status(StatusCodes.OK).json({ meal });
 });
 
 const updateMeal = catchAsync(async (req, res) => {
   const { mealid } = req.params;
-  const { name, mealType, is_Veg, description, price, is_Available } = req.body;
-  const meal = await MEAL.findByIdAndUpdate(
-    mealid,
-    { name, mealType, is_Veg, description, price, is_Available }, 
-    { new: true, runValidators: true }
-  );
-  if (!meal) {
-    throw new NotFoundError("Meal not found");
-  }
+  const meal = await mealService.updateMeal(mealid, req.body);
   res.status(StatusCodes.OK).json({ meal });
 });
 
 const getallMeals = catchAsync(async (req, res) => {
-  const meal = await MEAL.find({});
-  if(!meal){
-    throw new NotFoundError('No meal found')
-  }
-  res.status(StatusCodes.OK).json({ meal });
+  const filters = req.query;
+  const meals = await mealService.getAllMeals(filters);
+  res.status(StatusCodes.OK).json({ meal: meals });
 });
 
 const deleteMeal = catchAsync(async (req, res) => {
   const { mealid } = req.params;
-  const meal = await MEAL.findByIdAndDelete(mealid);
-  if (!meal) {
-    throw new NotFoundError("Meal not found");
-  }
+  const meal = await mealService.deleteMeal(mealid);
   res.status(StatusCodes.OK).json({ meal });
 });
 

@@ -2,7 +2,6 @@ import Joi from "joi";
 const objectIdSchema = Joi.string().length(24).hex().required();
 
 export const MealSchema = Joi.object({
-  messId: objectIdSchema,
   name: Joi.string().min(3).max(100).required(),
   mealType: Joi.string()
     .valid("breakfast", "lunch", "dinner", "snack")
@@ -10,7 +9,7 @@ export const MealSchema = Joi.object({
   is_Veg: Joi.boolean().required(),
   description: Joi.string().min(10).max(500).required(),
   price: Joi.number().min(1).required(),
-  is_Available: Joi.boolean().required(),
+  is_Available: Joi.boolean().default(true),
 });
 
 export const UpdateMealSchema = Joi.object({

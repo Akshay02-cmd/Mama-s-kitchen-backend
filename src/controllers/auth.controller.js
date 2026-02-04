@@ -6,7 +6,7 @@
  */
 
 import { StatusCodes } from "http-status-codes";
-import User from "../model/user.model.js";
+import { authService } from "../services/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 /**
@@ -33,18 +33,15 @@ import catchAsync from "../utils/catchAsync.js";
  * }
  */
 const register = catchAsync(async (req, res) => {
-    const user = await User.create({ ...req.body });
-    const token = user.createJWT();
+    const { user, token } = await authService.registerUser(req.body);
+    
     res.cookie("token", token, {
       httpOnly: true,
     });
+    
     res.status(StatusCodes.CREATED).json({
       success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        role: user.role,
-      },
+      user,
     });
 });
 
@@ -70,37 +67,15 @@ const register = catchAsync(async (req, res) => {
  * }
  */
 const login = catchAsync(async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: "Please provide email and password" });
-    }
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: "Invalid credentials (email)" });
-    }
-    const isPasswordCorrect = await user.comparePassword(password);
-    if (!isPasswordCorrect) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: "Invalid credentials (password)" });
-    }
-    const token = user.createJWT();
+    const { user, token } = await authService.loginUser(req.body);
+    
     res.cookie("token", token, {
       httpOnly: true,
     });
 
     res.status(StatusCodes.OK).json({
       success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        role: user.role,
-      },
-      user1: req.user,
+      user,
     });
 });
 
