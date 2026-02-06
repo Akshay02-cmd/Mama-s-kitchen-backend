@@ -42,6 +42,7 @@ const register = catchAsync(async (req, res) => {
     res.status(StatusCodes.CREATED).json({
       success: true,
       user,
+      token, // Send token in response for localStorage
     });
 });
 
@@ -76,6 +77,7 @@ const login = catchAsync(async (req, res) => {
     res.status(StatusCodes.OK).json({
       success: true,
       user,
+      token, // Send token in response for localStorage
     });
 });
 
