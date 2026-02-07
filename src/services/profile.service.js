@@ -29,6 +29,7 @@ export const createCustomerProfile = async (userId, profileData) => {
   const profile = await CustomerProfile.create({
     userId,
     ...profileData,
+    isProfileCompleted: true, // Mark profile as completed when created
   });
 
   if (!profile) {
@@ -67,7 +68,7 @@ export const getCustomerProfile = async (userId) => {
 export const updateCustomerProfile = async (userId, updateData) => {
   const profile = await CustomerProfile.findOneAndUpdate(
     { userId },
-    updateData,
+    { ...updateData, isProfileCompleted: true }, // Mark profile as completed when updated
     {
       new: true,
       runValidators: true,
@@ -102,6 +103,7 @@ export const createOwnerProfile = async (userId, profileData) => {
   const profile = await OwnerProfile.create({
     userId,
     ...profileData,
+    isProfileCompleted: true, // Mark profile as completed when created
   });
 
   if (!profile) {
@@ -140,7 +142,7 @@ export const getOwnerProfile = async (userId) => {
 export const updateOwnerProfile = async (userId, updateData) => {
   const profile = await OwnerProfile.findOneAndUpdate(
     { userId },
-    updateData,
+    { ...updateData, isProfileCompleted: true }, // Mark profile as completed when updated
     {
       new: true,
       runValidators: true,

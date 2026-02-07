@@ -1,6 +1,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 import {
   authRouter,
@@ -29,6 +31,33 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
+
+// API Documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Mama's Kitchen API Docs",
+}));
+
+// About route
+app.get("/about", (req, res) => {
+  res.json({
+    name: "Mama's Kitchen API",
+    version: "1.0.0",
+    description: "RESTful API for meal ordering platform",
+    documentation: "/api-docs",
+    endpoints: {
+      auth: "/auth",
+      profile: "/profile",
+      mess: "/mess",
+      menu: "/menu",
+      orders: "/orders",
+      reviews: "/reviews",
+      users: "/users",
+      contacts: "/contacts",
+    }
+  });
+});
+
 app.get("/", (req, res) => {
   res.redirect("/about");
 });

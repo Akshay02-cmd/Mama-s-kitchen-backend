@@ -205,12 +205,34 @@ BCRYPT_SALT_ROUNDS=10
 
 ## 📚 API Documentation
 
+### 🎯 Interactive Swagger Documentation
+
+**The complete interactive API documentation is available via Swagger UI!**
+
+Once the server is running, visit:
+```
+http://localhost:5000/api-docs
+```
+
+Features:
+- 📖 Complete endpoint documentation
+- 🧪 Test API endpoints directly from your browser
+- 🔐 Built-in authentication support
+- 📝 Request/response schemas with examples
+- 🎨 Beautiful, user-friendly interface
+
+For detailed information, see [SWAGGER_DOCUMENTATION.md](SWAGGER_DOCUMENTATION.md)
+
+---
+
 ### Base URL
 ```
 http://localhost:5000
 ```
 
-### Authentication Endpoints
+### Quick API Reference
+
+#### Authentication Endpoints
 
 #### Register User
 ```http
