@@ -1,26 +1,8 @@
-/**
- * @fileoverview User model for authentication and account management
- * @module model/user.model
- * @requires mongoose
- * @requires bcryptjs
- * @requires jsonwebtoken
- * @requires dotenv
- */
-
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import config from "../config/config.js"; // Import config to access JWT secret
+import config from "../config/config.js";
 
-/**
- * User schema definition
- * @typedef {Object} User
- * @property {string} role - User role (CUSTOMER or OWNER)
- * @property {string} name - User's full name
- * @property {string} email - Unique email address
- * @property {string} password - Hashed password
- * @property {Date} createdAt - Account creation timestamp
- */
 const UserSchema = new mongoose.Schema({
   role: {
     type: String,
@@ -59,12 +41,6 @@ UserSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-/**
- * Generate JWT token for user
- * @method createJWT
- * @returns {string} Signed JWT token
- * @memberof User
- */
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name, role: this.role },
@@ -73,13 +49,6 @@ UserSchema.methods.createJWT = function () {
   );
 };
 
-/**
- * Compare plain text password with hashed password
- * @method comparePassword
- * @param {string} userPassword - Plain text password
- * @returns {Promise<boolean>} True if passwords match
- * @memberof User
- */
 UserSchema.methods.comparePassword = async function (userPassword) {
   const isMatch = await bcrypt.compare(userPassword, this.password);
   return isMatch;
