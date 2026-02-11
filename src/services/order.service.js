@@ -95,7 +95,14 @@ export const createOrder = async (userId, orderData) => {
 export const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId)
     .populate("userId", "name email")
-    .populate("orderItems.mealId", "name price mealType is_Veg");
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    });
 
   if (!order) {
     throw new NotFoundError(`Order with ID ${orderId} not found`);
@@ -106,38 +113,42 @@ export const getOrderById = async (orderId) => {
 
 /**
  * Get all orders
- * @returns {Promise<Array>} Array of order objects
- * @throws {NotFoundError} If no orders found
+ * @returns {Promise<Array>} Array of all orders (empty array if no orders)
  */
 export const getAllOrders = async () => {
   const orders = await Order.find({})
     .populate("userId", "name email")
-    .populate("orderItems.mealId", "name price mealType")
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    })
     .sort({ createdAt: -1 });
 
-  if (!orders || orders.length === 0) {
-    throw new NotFoundError("No orders found");
-  }
-
-  return orders;
+  return orders || [];
 };
 
 /**
  * Get orders by user ID
  * @param {string} userId - User ID
- * @returns {Promise<Array>} Array of user's orders
- * @throws {NotFoundError} If no orders found
+ * @returns {Promise<Array>} Array of user's orders (empty array if no orders)
  */
 export const getUserOrders = async (userId) => {
   const orders = await Order.find({ userId })
-    .populate("orderItems.mealId", "name price mealType is_Veg")
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    })
     .sort({ createdAt: -1 });
 
-  if (!orders || orders.length === 0) {
-    throw new NotFoundError("No orders found for this user");
-  }
-
-  return orders;
+  return orders || [];
 };
 
 /**
@@ -154,7 +165,14 @@ export const updateOrderStatus = async (orderId, updateData) => {
     runValidators: true,
   })
     .populate("userId", "name email")
-    .populate("orderItems.mealId", "name price mealType");
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    });
 
   if (!order) {
     throw new NotFoundError(`Order with ID ${orderId} not found`);
@@ -199,14 +217,17 @@ export const clearUserOrders = async (userId) => {
 export const getOrdersByStatus = async (status) => {
   const orders = await Order.find({ status })
     .populate("userId", "name email")
-    .populate("orderItems.mealId", "name price")
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    })
     .sort({ createdAt: -1 });
 
-  if (!orders || orders.length === 0) {
-    throw new NotFoundError("No orders found for this status");
-  }
-
-  return orders;
+  return orders || [];
 };
 
 /**
@@ -224,14 +245,17 @@ export const getOrdersWithinDateRange = async (startDate, endDate) => {
     },
   })
     .populate("userId", "name email")
-    .populate("orderItems.mealId", "name price")
+    .populate({
+      path: "orderItems.mealId",
+      select: "name price mealType is_Veg image messId",
+      populate: {
+        path: "messId",
+        select: "name address"
+      }
+    })
     .sort({ createdAt: -1 });
 
-  if (!orders || orders.length === 0) {
-    throw new NotFoundError("No orders found within this date range");
-  }
-
-  return orders;
+  return orders || [];
 };
 
 /**
