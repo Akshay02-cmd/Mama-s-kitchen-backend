@@ -42,10 +42,16 @@ UserSchema.pre("save", async function () {
 });
 
 UserSchema.methods.createJWT = function () {
+  // Convert minutes to proper JWT format (e.g., "30m", "7d")
+  // If accessExpirationMinutes is 30, convert to "30m"
+  // For better UX, use days instead: 7 days = 10080 minutes
+  const expirationMinutes = config.jwt.accessExpirationMinutes || 10080; // Default 7 days
+  const expiresIn = `${expirationMinutes}m`;
+  
   return jwt.sign(
     { userId: this._id, name: this.name, role: this.role },
     config.jwt.secret,
-    { expiresIn: config.jwt.accessExpirationMinutes || "30d" }
+    { expiresIn }
   );
 };
 

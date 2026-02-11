@@ -53,6 +53,12 @@ export const getCustomerProfile = async (userId) => {
     throw new NotFoundError("Customer profile not found");
   }
 
+  // Auto-fix: If profile has phone and address but isProfileCompleted is false, update it
+  if (profile.phone && profile.address && !profile.isProfileCompleted) {
+    profile.isProfileCompleted = true;
+    await profile.save();
+  }
+
   return profile;
 };
 
@@ -125,6 +131,12 @@ export const getOwnerProfile = async (userId) => {
 
   if (!profile) {
     throw new NotFoundError("Owner profile not found");
+  }
+
+  // Auto-fix: If profile has phone and address but isProfileCompleted is false, update it
+  if (profile.phone && profile.address && !profile.isProfileCompleted) {
+    profile.isProfileCompleted = true;
+    await profile.save();
   }
 
   return profile;
