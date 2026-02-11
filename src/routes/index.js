@@ -6,6 +6,7 @@ import orderRouter from "./orders.routes.js";
 import getUserRouter from "./User.routes.js";
 import reviewRouter from "./review.routes.js";
 import contactusRouter from "./contactus.routes.js";
+import ownerRouter from "./owner.routes.js";
 
 export {
   authRouter,
@@ -16,4 +17,5 @@ export {
   getUserRouter,
   contactusRouter,
   reviewRouter,
+  ownerRouter,
 };

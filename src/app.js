@@ -13,6 +13,7 @@ import {
   getUserRouter,
   reviewRouter,
   contactusRouter,
+  ownerRouter,
 } from "./routes/index.js";
 
 import errorHandler from "./middleware/error.middelware.js";
@@ -54,6 +55,7 @@ app.get("/about", (req, res) => {
       reviews: "/reviews",
       users: "/users",
       contacts: "/contacts",
+      owner: "/owner",
     }
   });
 });
@@ -70,6 +72,7 @@ app.use("/users", getUserRouter);
 app.use("/orders", orderRouter);
 app.use("/reviews", reviewRouter);
 app.use("/contacts", contactusRouter);
+app.use("/owner", ownerRouter);
 
 
 // Handle 404 for undefined routes
