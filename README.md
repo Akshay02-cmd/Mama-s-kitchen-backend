@@ -234,6 +234,7 @@ NODE_ENV=development
 PORT=5000
 MONGODB_URL=mongodb://127.0.0.1:27017/mamas-kitchen
 JWT_SECRET=replace-with-a-strong-secret
+CORS_ORIGINS=http://localhost:5173,https://mama-s-kitchen-rho.vercel.app
 JWT_ACCESS_EXPIRATION_MINUTES=10080
 JWT_REFRESH_EXPIRATION_DAYS=30
 JWT_RESET_PASSWORD_EXPIRATION_MINUTES=10
