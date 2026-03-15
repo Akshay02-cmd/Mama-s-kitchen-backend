@@ -1,602 +1,275 @@
-# 🍽️ Mama's Kitchen - Backend API
+# Mama's Kitchen Backend
 
-[![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-v5.2-blue.svg)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-v9+-brightgreen.svg)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/License-ISC-yellow.svg)](LICENSE)
+Mama's Kitchen Backend is the REST API for a meal-ordering platform where customers can browse messes, view meals, place orders, and track order status, while owners can manage their mess and monitor business activity.
 
-**Mama's Kitchen** is a comprehensive meal ordering platform that connects customers with local home-based caterers and mess services in Nashik, India. This repository contains the RESTful API backend built with Node.js, Express, and MongoDB.
+This service is built with Node.js, Express, MongoDB, and Mongoose. It exposes role-aware endpoints for authentication, profile management, mess management, meals, orders, reviews, contacts, and owner analytics.
 
----
+## What This Project Does
 
-## 📋 Table of Contents
+The backend supports two main user roles:
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [API Documentation](#-api-documentation)
-- [Database Schema](#-database-schema)
-- [Authentication & Authorization](#-authentication--authorization)
-- [Error Handling](#-error-handling)
-- [Development](#-development)
-- [Contributing](#-contributing)
-- [License](#-license)
+- CUSTOMER: can register, log in, create a customer profile, browse messes and meals, place orders, and view order history.
+- OWNER: can register, log in, complete an owner profile, create a mess, create meals, manage orders, and view owner dashboard data.
 
----
+Current product scope:
 
-## ✨ Features
+- One owner is currently expected to operate one active mess in normal product flow.
+- The codebase still supports multiple mess records per owner in some service layers, but the current seeded data and UI flow are documented for one-owner-one-mess usage.
+- Meals support optional extras such as papad, pickle, raita, extra chutney, or add-ons.
+- Orders support selected extras per ordered meal item.
 
-### Current Implementation
+## Current Feature Set
 
-- ✅ **User Authentication**: JWT-based authentication with role-based access control
-- ✅ **Role Management**: Support for CUSTOMER and OWNER user roles
-- ✅ **Profile Management**: Separate profiles for customers and mess owners
-- ✅ **Mess Management**: CRUD operations for mess/catering services
-- ✅ **Meal Management**: Complete meal catalog with pricing and availability
-- ✅ **Data Validation**: Input validation using Joi schemas
-- ✅ **Secure Password Storage**: Bcrypt password hashing
-- ✅ **Cookie & Token Auth**: Supports both cookie and bearer token authentication
+- JWT-based authentication with cookie and bearer-token support
+- Role-based route protection for CUSTOMER and OWNER users
+- Separate customer and owner profiles
+- Mess CRUD operations
+- Meal CRUD operations
+- Meal extras support in schema and validation
+- Order creation, status updates, and owner order visibility
+- Owner dashboard statistics and owned-mess listing
+- Reviews and contact-us endpoints
+- Swagger UI API documentation
+- Seed scripts for local demo data
 
-### Planned Features
+## Tech Stack
 
-- 🔜 **Payment Integration**: Razorpay payment gateway
-- 🔜 **Image Upload**: Meal and mess image management
-- 🔜 **Search & Filters**: Advanced search and filtering capabilities
-- 🔜 **Real-time Notifications**: Order status updates
-- 🔜 **Email Services**: Email verification and notifications
+| Layer | Technology |
+| --- | --- |
+| Runtime | Node.js |
+| Web framework | Express |
+| Database | MongoDB |
+| ODM | Mongoose |
+| Validation | Joi |
+| Auth | JWT |
+| Password hashing | bcryptjs |
+| API docs | swagger-jsdoc + swagger-ui-express |
 
----
+## Folder Structure
 
-## 🛠️ Tech Stack
-
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **Node.js** | v18+ | Runtime environment |
-| **Express.js** | v5.2.1 | Web framework |
-| **MongoDB** | v9+ | Database |
-| **Mongoose** | v9.1.1 | ODM for MongoDB |
-| **JWT** | v9.0.3 | Authentication tokens |
-| **Bcrypt.js** | v3.0.3 | Password hashing |
-| **Joi** | v18.0.2 | Data validation |
-| **http-status-codes** | v2.3.0 | HTTP status constants |
-| **dotenv** | v17.2.3 | Environment configuration |
-
----
-
-## 📁 Project Structure
-
-```
-Mama-s-kitchen-backend/
-│
-├── src/
-│   ├── config/              # Configuration files
-│   │   └── db.config.js     # Database connection setup
-│   │
-│   ├── controllers/         # Request handlers
-│   │   ├── auth.controller.js
-│   │   ├── meal.controller.js
-│   │   ├── mess.controller.js
-│   │   └── profile.contorllers.js
-│   │
-│   ├── errors/              # Custom error classes
-│   │   ├── BadRequestError.js
-│   │   ├── CutomeAPIError.js
-│   │   ├── ForbiddenError.js
-│   │   ├── NotFoundError.js
-│   │   ├── UnauthorizedError.js
-│   │   └── index.js
-│   │
-│   ├── middleware/          # Express middleware
-│   │   ├── auth.middleware.js
-│   │   ├── authorizeRoles.middelware.js
-│   │   └── validator.middelware.js
-│   │
-│   ├── model/               # Mongoose models
-│   │   ├── user.model.js
-│   │   ├── CustomerProfile.model.js
-│   │   ├── OwnerProfile.model.js
-│   │   ├── Mess.model.js
-│   │   └── Meal.model.js
-│   │
-│   ├── routes/              # API routes
-│   │   ├── auth.routes.js
-│   │   ├── mess.routes.js
-│   │   └── profile.routes.js
-│   │
-│   ├── validators/          # Joi validation schemas
-│   │   ├── auth.validators.js
-│   │   ├── meal.validator.js
-│   │   └── profile.validators.js
-│   │
-│   ├── app.js               # Express app configuration
-│   └── server.js            # Server entry point
-│
-├── .env                     # Environment variables (not in repo)
-├── .gitignore              # Git ignore rules
-├── package.json            # Dependencies and scripts
-└── README.md               # This file
+```text
+src/
+  app.js                     Express app setup and route mounting
+  server.js                  Server bootstrap and DB connection
+  config/                    Runtime config, swagger, logger, token settings
+  controllers/               HTTP request handlers
+  docs/                      Swagger schema definitions
+  errors/                    Custom error classes
+  middleware/                Auth, validation, not-found, and error middleware
+  model/                     Mongoose schemas and models
+  routes/                    Express route modules
+  seed/                      Seed scripts for local development/demo data
+  services/                  Business logic and database orchestration
+  utils/                     Utility helpers such as catchAsync
+  validators/                Joi request validation schemas
 ```
 
----
+## Core Domain Models
 
-## 🚀 Getting Started
+### User
 
-### Prerequisites
+- Base authentication entity
+- Stores role, name, email, and hashed password
+- Roles used today: CUSTOMER, OWNER
 
-- **Node.js** v18.0.0 or higher
-- **MongoDB** v6.0 or higher (local or Atlas)
-- **npm** v9.0.0 or higher
+### CustomerProfile
 
-### Installation
+- Linked to a CUSTOMER user
+- Stores address, phone, and profile completion state
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Akshay02-cmd/Mama-s-kitchen-backend.git
-   cd Mama-s-kitchen-backend
-   ```
+### OwnerProfile
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+- Linked to an OWNER user
+- Stores address, phone, and profile completion state
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
+### Mess
 
-4. **Start MongoDB**
-   ```bash
-   # If using local MongoDB
-   mongod
-   
-   # If using MongoDB Atlas, ensure your connection string is in .env
-   ```
+- Linked to an owner
+- Stores public business information such as name, area, address, phone, description, and active status
 
-5. **Run the application**
-   ```bash
-   # Development mode with auto-reload
-   npm start
-   
-   # Production mode
-   node src/server.js
-   ```
+### Meal
 
-6. **Verify the server is running**
-   ```bash
-   curl http://localhost:5000
-   # Response: "Welcome to Mama's Kitchen API"
-   ```
+- Linked to a mess
+- Stores mealType, vegetarian flag, description, price, availability, and extras
 
----
+Example extras shape:
 
-## 🔐 Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-```env
-# Server Configuration
-PORT=5000
-NODE_ENV=development
-
-# Database Configuration
-MONGO_URI=mongodb://localhost:27017/mamas-kitchen
-# For MongoDB Atlas:
-# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/mamas-kitchen
-
-# JWT Configuration
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-JWT_LIFETIME=30d
-
-# Application Settings
-BCRYPT_SALT_ROUNDS=10
-```
-
-### Security Notes
-- **Never commit `.env` to version control**
-- Use strong, random JWT_SECRET in production
-- Keep MongoDB credentials secure
-- Use MongoDB Atlas or secure your local MongoDB instance
-
----
-
-## 📚 API Documentation
-
-### 🎯 Interactive Swagger Documentation
-
-**The complete interactive API documentation is available via Swagger UI!**
-
-Once the server is running, visit:
-```
-http://localhost:5000/api-docs
-```
-
-Features:
-- 📖 Complete endpoint documentation
-- 🧪 Test API endpoints directly from your browser
-- 🔐 Built-in authentication support
-- 📝 Request/response schemas with examples
-- 🎨 Beautiful, user-friendly interface
-
-For detailed information, see [SWAGGER_DOCUMENTATION.md](SWAGGER_DOCUMENTATION.md)
-
----
-
-### Base URL
-```
-http://localhost:5000
-```
-
-### Quick API Reference
-
-#### Authentication Endpoints
-
-#### Register User
-```http
-POST /auth/register
-Content-Type: application/json
-
+```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123",
-  "role": "CUSTOMER"  // or "OWNER"
-}
-```
-
-#### Login User
-```http
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "password123",
-  "role": "CUSTOMER"
-}
-```
-
-### Profile Endpoints
-
-#### Create Customer Profile
-```http
-POST /profile/customer
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "phone": "9876543210",
-  "address": "123 Main Street, Nashik, Maharashtra"
-}
-```
-
-#### Get Customer Profile
-```http
-GET /profile/customer
-Authorization: Bearer <token>
-```
-
-#### Update Customer Profile
-```http
-PUT /profile/customer
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "phone": "9876543211",
-  "address": "456 New Street, Nashik"
-}
-```
-
-#### Owner Profile Endpoints
-Similar to customer endpoints but use `/profile/owner`
-
-### Mess Endpoints
-
-#### Get All Messes
-```http
-GET /mess
-```
-
-#### Create Mess (Owner only)
-```http
-POST /mess
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "messName": "Mama's Kitchen Nashik",
-  "area": "Panchavati",
-  "phone": "9876543210",
-  "address": "123 Food Street, Nashik",
-  "description": "Authentic homemade meals with love"
-}
-```
-
-#### Get Single Mess
-```http
-GET /mess/:messid
-```
-
-#### Update Mess (Owner only)
-```http
-PUT /mess/:messid
-Authorization: Bearer <token>
-Content-Type: application/json
-```
-
-#### Delete Mess (Owner only)
-```http
-DELETE /mess/:messid
-Authorization: Bearer <token>
-```
-
-### Meal Endpoints
-
-#### Get All Meals for a Mess
-```http
-GET /mess/:messid/meals
-```
-
-#### Create Meal (Owner only)
-```http
-POST /mess/:messid/meals
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "name": "Paneer Butter Masala Thali",
-  "mealType": "lunch",  // breakfast, lunch, dinner, snack
-  "is_Veg": true,
-  "description": "Delicious paneer curry with roti, rice, and salad",
-  "price": 120,
+  "name": "Papad",
+  "price": 15,
   "is_Available": true
 }
 ```
 
-#### Get Single Meal
-```http
-GET /mess/:messid/meals/:mealId
-```
+### Order
 
-#### Update Meal (Owner only)
-```http
-PUT /mess/:messid/meals/:mealId
-Authorization: Bearer <token>
-```
+- Linked to a customer user
+- Stores order items, each with mealId, quantity, price, and selectedExtras
+- Stores total amount, delivery data, payment metadata, and status
 
-#### Delete Meal (Owner only)
-```http
-DELETE /mess/:messid/meals/:mealId
-Authorization: Bearer <token>
-```
+Example selected extras shape:
 
-### Response Format
-
-#### Success Response
 ```json
 {
-  "success": true,
-  "data": { ... }
+  "extraId": "65f0c3...",
+  "name": "Raita",
+  "price": 25
 }
 ```
 
-#### Error Response
-```json
-{
-  "success": false,
-  "message": "Error description",
-  "errors": [ ... ]  // Validation errors
-}
+## Request Flow
+
+Typical backend request flow:
+
+1. Route matches an endpoint in src/routes.
+2. Middleware validates auth, role, and payload shape.
+3. Controller reads request values and delegates business logic.
+4. Service executes database operations.
+5. Controller returns JSON response.
+6. Global error middleware formats failures.
+
+## Main API Groups
+
+Base URL in local development:
+
+```text
+http://localhost:5000
 ```
 
----
+Main route groups:
 
-## 🗄️ Database Schema
+- /auth
+- /profile
+- /mess
+- /menu
+- /orders
+- /owner
+- /reviews
+- /contacts
+- /users
 
-### User Collection
-```javascript
-{
-  _id: ObjectId,
-  name: String,
-  email: String (unique),
-  password: String (hashed),
-  role: String (CUSTOMER | OWNER),
-  createdAt: Date
-}
+Interactive docs:
+
+```text
+http://localhost:5000/api-docs
 ```
 
-### CustomerProfile Collection
-```javascript
-{
-  _id: ObjectId,
-  userId: ObjectId (ref: User),
-  phone: String,
-  address: String,
-  isProfileCompleted: Boolean,
-  timestamps: true
-}
+## Important Implementation Notes
+
+### Authentication
+
+- Login and register return both user info and token.
+- The server also writes the token into an httpOnly cookie.
+- Auth middleware accepts either the cookie token or an Authorization bearer token.
+
+### Meal Creation Route
+
+Meal creation currently uses an unusual route shape:
+
+```text
+POST /menu/:mealid
 ```
 
-### OwnerProfile Collection
-```javascript
-{
-  _id: ObjectId,
-  userId: ObjectId (ref: User),
-  phone: String,
-  address: String,
-  isProfileCompleted: Boolean,
-  timestamps: true
-}
-```
+The controller does not use mealid for creation. Frontend code currently sends a placeholder value such as create. This is documented because it is current behavior and important for newcomers to understand.
 
-### Mess Collection
-```javascript
-{
-  _id: ObjectId,
-  ownerId: ObjectId (ref: User),
-  name: String,
-  area: String,
-  phone: String,
-  address: String,
-  description: String,
-  is_Active: Boolean,
-  timestamps: true
-}
-```
+### One Owner, One Mess Current Usage
 
-### Meal Collection
-```javascript
-{
-  _id: ObjectId,
-  messId: ObjectId (ref: Mess),
-  name: String,
-  mealType: String (breakfast | lunch | dinner | snack),
-  is_Veg: Boolean,
-  description: String,
-  price: Number,
-  is_Available: Boolean,
-  timestamps: true
-}
-```
+Although some owner services aggregate over multiple messes, the current application flow should be understood as:
 
----
+- owner logs in
+- owner sees owned mess list
+- owner selects one mess
+- owner manages that specific mess dashboard
 
-## 🔒 Authentication & Authorization
+Seed data is aligned to that flow and creates one owner with one mess.
 
-### JWT Token Structure
-```javascript
-{
-  userId: "user_id_from_database",
-  name: "User Name",
-  role: "CUSTOMER" | "OWNER"
-}
-```
+## Local Setup
 
-### Authentication Methods
+### Prerequisites
 
-1. **Cookie-based** (Default)
-   - Token stored in httpOnly cookie
-   - Automatically sent with requests
+- Node.js 18+
+- npm 9+
+- MongoDB running locally or reachable via MongoDB Atlas
 
-2. **Bearer Token** (Alternative)
-   ```http
-   Authorization: Bearer <your-jwt-token>
-   ```
-
-### Protected Routes
-
-- Customer-only routes: `/profile/customer/*`
-- Owner-only routes: `/profile/owner/*`, mess creation/modification, meal creation/modification
-- Public routes: Authentication endpoints, viewing messes and meals
-
----
-
-## ⚠️ Error Handling
-
-### Custom Error Classes
-
-- **BadRequestError** (400): Invalid request data
-- **UnauthorizedError** (401): Authentication failure
-- **ForbiddenError** (403): Insufficient permissions
-- **NotFoundError** (404): Resource not found
-
-### Error Response Format
-```json
-{
-  "success": false,
-  "message": "Detailed error message",
-  "statusCode": 400
-}
-```
-
----
-
-## 💻 Development
-
-### Available Scripts
+### Install
 
 ```bash
-# Start development server with auto-reload
-npm start
-
-# Start production server
-node src/server.js
-
-# Run tests (not yet implemented)
-npm test
+npm install
 ```
 
-### Code Style Guidelines
+### Environment Variables
 
-- Use ES6+ features (async/await, arrow functions, destructuring)
-- Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
-- Add JSDoc comments for all functions
-- Keep functions small and focused
-- Use meaningful variable and function names
+Create a .env file in the backend project root:
 
-### Git Workflow
+```env
+NODE_ENV=development
+PORT=5000
+MONGODB_URL=mongodb://127.0.0.1:27017/mamas-kitchen
+JWT_SECRET=replace-with-a-strong-secret
+JWT_ACCESS_EXPIRATION_MINUTES=10080
+JWT_REFRESH_EXPIRATION_DAYS=30
+JWT_RESET_PASSWORD_EXPIRATION_MINUTES=10
+JWT_VERIFY_EMAIL_EXPIRATION_MINUTES=10
+```
 
-1. Create feature branch: `git checkout -b feature/your-feature`
-2. Make changes and commit: `git commit -m "Description"`
-3. Push to branch: `git push origin feature/your-feature`
-4. Create Pull Request
+### Run the Server
 
----
+```bash
+npm start
+```
 
-## 🧪 Testing
+### Seed Demo Data
 
-Testing infrastructure is planned for future releases. Recommended tools:
+```bash
+npm run seed
+```
 
-- **Jest**: Unit testing framework
-- **Supertest**: HTTP assertions
-- **MongoDB Memory Server**: In-memory database for testing
+Seed output creates:
 
----
+- one customer account
+- one owner account
+- one mess
+- meals with extras
+- orders that include selectedExtras
+- one review
 
-## 🤝 Contributing
+## Demo Credentials
 
-Contributions are welcome! Please follow these steps:
+Created by the seed script:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests (when testing is set up)
-5. Ensure all tests pass
-6. Submit a pull request
+- Customer: rahul@customer.com / password123
+- Owner: priya@owner.com / password123
 
----
+## Useful Scripts
 
-## 📝 License
+```bash
+npm start       # Run with nodemon
+npm run dev     # Run with inspector enabled
+npm run seed    # Seed database with demo data
+npm run docs    # Reminder for Swagger docs URL
+```
 
-This project is licensed under the **ISC License**.
+## Beginner Walkthrough
 
----
+If you are new to the project, follow this order:
 
-## 👥 Authors
+1. Read this README for the product and setup overview.
+2. Open docs/README.md for documentation map.
+3. Read docs/ARCHITECTURE.md to understand how code is organized.
+4. Start the server and open /api-docs.
+5. Run the seed script and test login as customer and owner.
 
-- **Akshay Patil** - *Initial work* - [@Akshay02-cmd](https://github.com/Akshay02-cmd)
-- **TechRedy IT Solutions** - *Development Partner*
+## Related Documentation
 
----
+- [docs/README.md](docs/README.md)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/API_ENDPOINTS.md](docs/API_ENDPOINTS.md)
+- [docs/AUTHENTICATION.md](docs/AUTHENTICATION.md)
+- [docs/DATABASE.md](docs/DATABASE.md)
+- [docs/ERROR_HANDLING.md](docs/ERROR_HANDLING.md)
+- [SWAGGER_DOCUMENTATION.md](SWAGGER_DOCUMENTATION.md)
 
-## 🙏 Acknowledgments
+## Status
 
-- Express.js community
-- MongoDB documentation
-- All contributors and testers
-
----
-
-## 📞 Support
-
-For support, email: [akshaydpatil1646@gmail.com]
-
-Project Link: [https://github.com/Akshay02-cmd/Mama-s-kitchen-backend](https://github.com/Akshay02-cmd/Mama-s-kitchen-backend)
-
----
-
-**Made with ❤️ in Nashik, India**
+This backend is in active development. The current codebase is functional for local development and integration with the React frontend, but there are still areas that should be normalized later, especially route consistency and some owner-flow simplifications.

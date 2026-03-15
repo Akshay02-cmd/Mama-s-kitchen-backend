@@ -1,207 +1,93 @@
-# Backend Documentation Index
+# Backend Documentation
 
-Welcome to the Mama's Kitchen Backend documentation. This folder contains comprehensive documentation for the backend API.
+This folder contains the detailed backend documentation for Mama's Kitchen. It is intended to help three kinds of readers:
 
-## 📚 Documentation Files
+- newcomers who want to understand what the API does
+- frontend developers integrating with the backend
+- backend contributors extending or debugging the service
 
-### Architecture & Design
+## Start Here
 
-- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Complete backend architecture overview
-  - Layered architecture pattern
-  - Directory structure
-  - Design patterns used
-  - Security measures
-  - Scalability considerations
+If this is your first time in the backend, read these files in this order:
 
-- **[DATABASE.md](./DATABASE.md)** - Database schema and design
-  - MongoDB collections
-  - Schema definitions
-  - Relationships (ERD)
-  - Indexes and optimization
-  - Query patterns
+1. [../README.md](../README.md)
+2. [ARCHITECTURE.md](ARCHITECTURE.md)
+3. [DATABASE.md](DATABASE.md)
+4. [AUTHENTICATION.md](AUTHENTICATION.md)
+5. [API_ENDPOINTS.md](API_ENDPOINTS.md)
 
-### API Documentation
+## Documentation Map
 
-- **[API_ENDPOINTS.md](./API_ENDPOINTS.md)** - Complete API reference
-  - All endpoints with examples
-  - Request/response formats
-  - Authentication requirements
-  - Error responses
-  - Status codes
+### Architecture and internals
 
-- **[AUTHENTICATION.md](./AUTHENTICATION.md)** - Authentication & authorization
-  - JWT implementation
-  - Password security
-  - Role-based access control (RBAC)
-  - Protected routes
-  - Security best practices
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+  Explains the layered structure, how requests move through the app, and where to add new logic.
 
-### Interactive Documentation
+- [DATABASE.md](DATABASE.md)
+  Describes collections, relationships, and the core data shapes used by the app.
 
-- **Swagger UI**: http://localhost:5000/api-docs
-  - Live API testing
-  - Request/response schemas
-  - Try endpoints directly
+### API usage
 
-## 🚀 Quick Start
+- [API_ENDPOINTS.md](API_ENDPOINTS.md)
+  Lists route groups, sample payloads, and endpoint-level notes.
 
-1. **New to the project?** Start with [ARCHITECTURE.md](./ARCHITECTURE.md)
-2. **Need to use the API?** Check [API_ENDPOINTS.md](./API_ENDPOINTS.md)
-3. **Working with database?** Read [DATABASE.md](./DATABASE.md)
-4. **Implementing auth?** See [AUTHENTICATION.md](./AUTHENTICATION.md)
+- [AUTHENTICATION.md](AUTHENTICATION.md)
+  Explains JWT auth, cookies, bearer tokens, and role checks.
 
-## 📖 Related Documentation
+- [ERROR_HANDLING.md](ERROR_HANDLING.md)
+  Covers the backend error model and how failures are returned.
 
-### Root Documentation
-- [PROJECT_OVERVIEW.md](../../PROJECT_OVERVIEW.md) - Overall project information
-- [SETUP.md](../../SETUP.md) - Installation and setup guide
-- [USER_WORKFLOWS.md](../../USER_WORKFLOWS.md) - User journey documentation
+### Interactive reference
 
-### Frontend Documentation
-- Navigate to `../Mama-s-kitchen-frontend/docs/` for frontend documentation
+- Swagger UI: http://localhost:5000/api-docs
 
-## 🔍 Quick Reference
+## What Makes This Backend Different
 
-### Authentication Headers
+These project-specific details matter for anyone integrating with the API:
 
-**Cookie-based**:
-```
-Cookie: token=<jwt-token>
-```
+- Both cookie-based auth and bearer-token auth are supported.
+- Profiles are separate resources from users.
+- Meals can contain extras.
+- Orders can store selected extras per line item.
+- Current product usage assumes one owner operating one mess, even though some service logic can aggregate multiple messes.
+- Meal creation currently happens through POST /menu/:mealid with a placeholder parameter.
 
-**Bearer token**:
-```
-Authorization: Bearer <jwt-token>
-```
+## Suggested Reading by Task
 
-### Response Format
+### I want to run the backend locally
 
-**Success**:
-```json
-{
-  "success": true,
-  "data": {},
-  "message": "Optional message"
-}
-```
+- Read [../README.md](../README.md)
 
-**Error**:
-```json
-{
-  "success": false,
-  "error": "Error message",
-  "statusCode": 400
-}
-```
+### I want to add a new endpoint
 
-### Base URL
+- Read [ARCHITECTURE.md](ARCHITECTURE.md)
+- Read [API_ENDPOINTS.md](API_ENDPOINTS.md)
+- Inspect the existing route, controller, service, and validator pattern
 
-- **Development**: `http://localhost:5000`
-- **Production**: `https://api.mamaskitchen.com` (planned)
+### I want to change auth behavior
 
-## 🛠️ Development
+- Read [AUTHENTICATION.md](AUTHENTICATION.md)
+- Inspect src/middleware/auth.middleware.js and src/routes/auth.routes.js
 
-### Starting the Server
+### I want to understand why order totals include extras
 
-```bash
-# Development mode
-npm start
+- Read [DATABASE.md](DATABASE.md)
+- Inspect src/model/order.model.js and src/services/order.service.js
 
-# Production mode
-npm run start:prod
+## Quick Operational Notes
 
-# Debug mode
-npm run dev
-```
+- Local default server URL: http://localhost:5000
+- Swagger docs: http://localhost:5000/api-docs
+- Seed command: npm run seed
+- Start command: npm start
 
-### Environment Variables
+## Documentation Maintenance Rule
 
-Required `.env` configuration:
+When you change one of the following, update documentation in the same task whenever possible:
 
-```env
-PORT=5000
-MONGODB_URL=mongodb://localhost:27017/mamas-kitchen
-JWT_SECRET=your-secret-key
-JWT_ACCESS_EXPIRATION_MINUTES=43200
-NODE_ENV=development
-```
-
-## 📝 API Versioning
-
-- **Current**: v1 (implicit, no prefix)
-- **Future**: `/api/v2/...`
-
-## 🔐 Security
-
-- JWT token authentication
-- Bcrypt password hashing (10 rounds)
-- Role-based access control
-- Input validation (Joi)
-- CORS configuration
-- Error sanitization
-
-## 🧪 Testing
-
-**Manual Testing**:
-- Use Swagger UI: http://localhost:5000/api-docs
-- Use Postman/Thunder Client
-- Use curl commands
-
-**Automated Testing** (Planned):
-- Unit tests with Jest
-- Integration tests
-- E2E tests
-
-## 📊 Database
-
-**Connection**:
-```
-mongodb://localhost:27017/mamas-kitchen
-```
-
-**Collections**:
-- users
-- customerprofiles
-- ownerprofiles
-- messes
-- meals
-- orders
-- reviews
-- contactuses
-
-## 🚦 Status Codes
-
-| Code | Meaning |
-|------|---------|
-| 200 | OK |
-| 201 | Created |
-| 400 | Bad Request |
-| 401 | Unauthorized |
-| 403 | Forbidden |
-| 404 | Not Found |
-| 500 | Server Error |
-
-## 📞 Support
-
-For questions or issues:
-- Check relevant documentation file
-- Review Swagger documentation
-- Check GitHub issues
-- Contact: your-email@example.com
-
-## 🔄 Updates
-
-**Last Updated**: February 9, 2026  
-**Version**: 1.0.0
-
-## 📋 Contributing
-
-When adding new features:
-1. Update relevant documentation
-2. Update Swagger specs
-3. Add examples to API documentation
-4. Update this index if needed
-
----
-
-**Note**: All documentation is maintained in markdown files. Code files should not contain extensive documentation - refer to these docs instead.
+- route contracts
+- request or response shapes
+- auth behavior
+- schema fields
+- seed data assumptions
+- owner or customer workflow
