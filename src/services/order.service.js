@@ -56,11 +56,21 @@ export const createOrder = async (userId, orderData) => {
       throw new BadRequestError(`Meal with ID ${item.mealId} is not available`);
     }
 
-    totalAmount += item.price * item.quantity;
+    const extrasTotal = (item.selectedExtras || []).reduce(
+      (sum, extra) => sum + (extra.price || 0),
+      0,
+    );
+
+    totalAmount += (item.price + extrasTotal) * item.quantity;
     orderItems.push({
       mealId: item.mealId,
       price: item.price,
       quantity: item.quantity,
+      selectedExtras: (item.selectedExtras || []).map((extra) => ({
+        extraId: extra.extraId,
+        name: extra.name,
+        price: extra.price,
+      })),
     });
   }
 

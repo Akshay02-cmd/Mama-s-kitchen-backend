@@ -9,11 +9,14 @@ const auth = async (req, res, next) => {
 
   if (cookieToken) {
     token = cookieToken;
+    console.log('[Auth Middleware] Using cookie token');
   } else if (authHeader && authHeader.startsWith("Bearer ")) {
     token = authHeader.split(" ")[1];
+    console.log('[Auth Middleware] Using Bearer token from header');
   }
 
   if (!token) {
+    console.log('[Auth Middleware] No token found - cookieToken:', !!cookieToken, 'authHeader:', !!authHeader);
     throw new UnauthorizedError("Authentication invalid");
   }
 
@@ -24,8 +27,10 @@ const auth = async (req, res, next) => {
       name: payload.name,
       role: payload.role,
     };
+    console.log('[Auth Middleware] Token verified for user:', req.user.name, 'Role:', req.user.role);
     next();
   } catch (error) {
+    console.error('[Auth Middleware] Token verification failed:', error.message);
     throw new UnauthorizedError("Authentication invalid");
   }
 };

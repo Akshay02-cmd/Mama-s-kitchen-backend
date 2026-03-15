@@ -1,5 +1,27 @@
 import mongoose from "mongoose";
 
+const ExtraItemSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 60,
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    is_Available: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  { _id: true }
+);
+
 const MealSchema = new mongoose.Schema(
   {
     messId: {
@@ -37,6 +59,10 @@ const MealSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: true,
+    },
+    extras: {
+      type: [ExtraItemSchema],
+      default: [],
     },
   },
   { timestamps: true }

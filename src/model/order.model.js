@@ -24,6 +24,13 @@ const OrderSchema = new mongoose.Schema(
           required: true,
           min: 0,
         },
+        selectedExtras: [
+          {
+            extraId: mongoose.Schema.Types.ObjectId,
+            name: { type: String, required: true },
+            price: { type: Number, required: true, min: 0 },
+          },
+        ],
       },
     ],
     totalAmount: {

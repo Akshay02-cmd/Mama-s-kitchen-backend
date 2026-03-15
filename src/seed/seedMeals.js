@@ -278,6 +278,38 @@ const createDefaultMess = async (ownerId) => {
   }
 };
 
+const getDefaultExtras = (mealType, isVeg) => {
+  const common = [
+    { name: 'Papad', price: 10, is_Available: true },
+    { name: 'Pickle', price: 8, is_Available: true },
+  ];
+
+  if (mealType === 'breakfast') {
+    return [
+      { name: 'Extra Chutney', price: 10, is_Available: true },
+      { name: 'Extra Sambar', price: 15, is_Available: true },
+      ...common,
+    ];
+  }
+
+  if (mealType === 'lunch' || mealType === 'dinner') {
+    return [
+      { name: 'Extra Roti', price: 12, is_Available: true },
+      { name: 'Raita', price: 20, is_Available: true },
+      ...(isVeg
+        ? [{ name: 'Paneer Add-on', price: 45, is_Available: true }]
+        : [{ name: 'Boiled Egg', price: 20, is_Available: true }]),
+      ...common,
+    ];
+  }
+
+  return [
+    { name: 'Green Chutney', price: 8, is_Available: true },
+    { name: 'Sweet Chutney', price: 8, is_Available: true },
+    ...common,
+  ];
+};
+
 const seedMeals = async () => {
   try {
     await connectDB();
@@ -296,7 +328,8 @@ const seedMeals = async () => {
     const mealsToInsert = mealData.map(meal => ({
       ...meal,
       messId: messId,
-      is_Available: true
+      is_Available: true,
+      extras: getDefaultExtras(meal.mealType, meal.is_Veg),
     }));
 
     await Meal.insertMany(mealsToInsert);

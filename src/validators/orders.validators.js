@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const objectIdSchema = Joi.string().length(24).hex().required();
+const optionalObjectId = Joi.string().length(24).hex();
 
 export const createOrderSchema = Joi.object({
   items: Joi.array()
@@ -9,6 +10,15 @@ export const createOrderSchema = Joi.object({
         mealId: objectIdSchema,
         quantity: Joi.number().min(1).required(),
         price: Joi.number().min(0).required(),
+        selectedExtras: Joi.array()
+          .items(
+            Joi.object({
+              extraId: optionalObjectId,
+              name: Joi.string().required(),
+              price: Joi.number().min(0).required(),
+            }),
+          )
+          .default([]),
       }),
     )
     .min(1)
