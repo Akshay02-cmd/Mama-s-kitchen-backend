@@ -29,7 +29,11 @@ export const createReview = async (reviewData) => {
     throw new BadRequestError("Invalid review data");
   }
 
-  return review;
+  const populatedReview = await Review.findById(review._id)
+    .populate("user", "name email")
+    .populate("mess", "name area");
+
+  return populatedReview;
 };
 
 /**

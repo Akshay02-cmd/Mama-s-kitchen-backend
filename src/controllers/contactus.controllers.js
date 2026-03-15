@@ -3,7 +3,10 @@ import { contactService } from "../services/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createContactUs = catchAsync(async (req, res) => {
-    const contactus = await contactService.createContact(req.body);
+    const contactus = await contactService.createContact({
+      ...req.body,
+      userID: req.user.userId,
+    });
     res.status(StatusCodes.CREATED).json({ success: true, data: contactus });
 });
   

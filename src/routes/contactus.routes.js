@@ -17,7 +17,7 @@ const router = express.Router();
 router
   .route("/")
   .get(auth, authorizeRoles("ADMIN"), getAllContactUs)
-  .post(auth, authorizeRoles("CUSTOMER"), validate(contactUsSchema), createContactUs)
+  .post(auth, authorizeRoles("CUSTOMER", "OWNER"), validate(contactUsSchema), createContactUs)
   .delete(auth, authorizeRoles("ADMIN"), deleteAllContactUs);
 
 router

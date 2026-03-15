@@ -29,6 +29,8 @@ Current product scope:
 - Order creation, status updates, and owner order visibility
 - Owner dashboard statistics and owned-mess listing
 - Reviews and contact-us endpoints
+- Customer review create, edit, and delete support
+- Authenticated contact-us submission for customers and owners
 - Swagger UI API documentation
 - Seed scripts for local demo data
 
@@ -163,6 +165,31 @@ http://localhost:5000/api-docs
 - The server also writes the token into an httpOnly cookie.
 - Auth middleware accepts either the cookie token or an Authorization bearer token.
 
+### Contact Submission Behavior
+
+The contact-us endpoint now accepts the same payload shape used by the frontend form:
+
+```json
+{
+  "name": "Rahul Sharma",
+  "email": "rahul@customer.com",
+  "phone": "9876543210",
+  "subject": "Need help with an order",
+  "message": "I want to update my delivery details."
+}
+```
+
+The backend attaches the authenticated user id automatically, so the frontend does not need to send `userID`.
+
+### Review Flow
+
+Customer-facing review flow currently works like this:
+
+- frontend loads mess reviews via `GET /reviews?mess=<messId>`
+- customer submits a review with `POST /reviews`
+- customer can update or delete only their own review
+- backend returns populated review objects so the UI can refresh without a full reload
+
 ### Meal Creation Route
 
 Meal creation currently uses an unusual route shape:
@@ -272,4 +299,4 @@ If you are new to the project, follow this order:
 
 ## Status
 
-This backend is in active development. The current codebase is functional for local development and integration with the React frontend, but there are still areas that should be normalized later, especially route consistency and some owner-flow simplifications.
+This backend is in active development. The current codebase is functional for local development and for the current customer and owner frontend flows, but there are still areas that should be normalized later, especially route consistency, admin-role completion, and environment-driven production configuration.

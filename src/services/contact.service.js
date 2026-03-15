@@ -18,7 +18,7 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
  * @throws {BadRequestError} If contact creation fails
  */
 export const createContact = async (contactData) => {
-  const { userID, name, email, message } = contactData;
+  const { userID, name, email, phone, subject, message } = contactData;
 
   if (!userID || !name || !email || !message) {
     throw new BadRequestError("All fields are required");
@@ -28,6 +28,8 @@ export const createContact = async (contactData) => {
     userID,
     name,
     email,
+    phone,
+    subject,
     message,
   });
 
