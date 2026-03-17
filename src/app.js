@@ -82,13 +82,13 @@ app.use(cookieParser());
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: "Mama's Kitchen API Docs",
+  customSiteTitle: "Mumas Kitchen API Docs",
 }));
 
 // About route
 app.get("/about", (req, res) => {
   res.json({
-    name: "Mama's Kitchen API",
+    name: "Mumas Kitchen API",
     version: "1.0.0",
     description: "RESTful API for meal ordering platform",
     documentation: "/api-docs",

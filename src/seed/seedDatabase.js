@@ -72,7 +72,7 @@ const seedDatabase = async () => {
     // Single owner -> single mess for current product phase.
     const primaryMess = await Mess.create({
       ownerId: ownerUser._id,
-      name: "Mama's Kitchen",
+      name: 'Mumas Kitchen',
       area: 'Koramangala',
       phone: '9123456789',
       address: 'Shop 12, 5th Block, Koramangala, Bangalore - 560095',

@@ -10,10 +10,10 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: "Mama's Kitchen API",
+      title: 'Mumas Kitchen API',
       version: '1.0.0',
       description: `
-        RESTful API backend for Mama's Kitchen - A meal ordering platform connecting 
+        RESTful API backend for Mumas Kitchen - A meal ordering platform connecting 
         customers with local home-based caterers and mess services.
         
         ## Features

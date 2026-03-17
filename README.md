@@ -1,6 +1,6 @@
-# Mama's Kitchen Backend
+# Mumas Kitchen Backend
 
-Mama's Kitchen Backend is the REST API for a meal-ordering platform where customers can browse messes, view meals, place orders, and track order status, while owners can manage their mess and monitor business activity.
+Mumas Kitchen Backend is the REST API for a meal-ordering platform where customers can browse messes, view meals, place orders, and track order status, while owners can manage their mess and monitor business activity.
 
 This service is built with Node.js, Express, MongoDB, and Mongoose. It exposes role-aware endpoints for authentication, profile management, mess management, meals, orders, reviews, contacts, and owner analytics.
 
@@ -232,7 +232,7 @@ Create a .env file in the backend project root:
 ```env
 NODE_ENV=development
 PORT=5000
-MONGODB_URL=mongodb://127.0.0.1:27017/mamas-kitchen
+MONGODB_URL=mongodb://127.0.0.1:27017/mumas-kitchen
 JWT_SECRET=replace-with-a-strong-secret
 CORS_ORIGINS=http://localhost:5173,https://mama-s-kitchen-rho.vercel.app
 JWT_ACCESS_EXPIRATION_MINUTES=10080
