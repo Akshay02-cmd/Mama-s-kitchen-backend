@@ -18,7 +18,7 @@ MongoDB connection is created during server startup and during seed execution us
 Example local value:
 
 ```env
-MONGODB_URL=mongodb://127.0.0.1:27017/mumas-kitchen
+MONGODB_URL=mongodb://127.0.0.1:27017/mummas-kitchen
 ```
 
 ## Collections

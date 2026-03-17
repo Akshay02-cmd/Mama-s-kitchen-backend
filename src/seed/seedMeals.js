@@ -222,7 +222,7 @@ const createDefaultUser = async () => {
     
     if (!owner) {
       owner = await User.create({
-        name: 'Mumas Kitchen Owner',
+        name: "Mumma's Kitchen Owner",
         email: 'owner@mamaskitchen.com',
         password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password: "password"
         role: 'OWNER'
@@ -254,11 +254,11 @@ const createDefaultUser = async () => {
 
 const createDefaultMess = async (ownerId) => {
   try {
-    let mess = await Mess.findOne({ name: 'Mumas Kitchen Central' });
+    let mess = await Mess.findOne({ name: "Mumma's Kitchen Central" });
     
     if (!mess) {
       mess = await Mess.create({
-        name: 'Mumas Kitchen Central',
+        name: "Mumma's Kitchen Central",
         ownerId: ownerId,
         area: 'Central Mumbai',
         phone: '9876543210',

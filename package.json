@@ -1,7 +1,7 @@
 {
-  "name": "mumas-kitchen-backend",
+  "name": "mummas-kitchen-backend",
   "version": "1.0.0",
-  "description": "RESTful API backend for Mumas Kitchen - A meal ordering platform connecting customers with local home-based caterers and mess services",
+  "description": "RESTful API backend for Mumma's Kitchen - A meal ordering platform connecting customers with local home-based caterers and mess services",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

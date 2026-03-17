@@ -1,6 +1,6 @@
 # Backend Documentation
 
-This folder contains the detailed backend documentation for Mumas Kitchen. It is intended to help three kinds of readers:
+This folder contains the detailed backend documentation for Mumma's Kitchen. It is intended to help three kinds of readers:
 
 - newcomers who want to understand what the API does
 - frontend developers integrating with the backend

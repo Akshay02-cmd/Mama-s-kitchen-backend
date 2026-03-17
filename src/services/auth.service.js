@@ -5,7 +5,7 @@
  */
 
 import User from "../model/user.model.js";
-import { BadRequestError, UnauthorizedError, NotFoundError } from "../errors/index.js";
+import { BadRequestError, UnauthorizedError, NotFoundError, ForbiddenError } from "../errors/index.js";
 
 /**
  * Register a new user
@@ -18,6 +18,10 @@ import { BadRequestError, UnauthorizedError, NotFoundError } from "../errors/ind
  * @throws {BadRequestError} If user creation fails
  */
 export const registerUser = async (userData) => {
+  if (userData.role === "OWNER") {
+    throw new ForbiddenError("Owner registration is restricted");
+  }
+
   // Check if user already exists
   const existingUser = await User.findOne({ email: userData.email });
   if (existingUser) {
