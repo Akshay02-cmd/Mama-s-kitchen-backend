@@ -84,16 +84,34 @@ const seedDatabase = async () => {
     const meals = await Meal.insertMany([
       {
         messId: primaryMess._id,
-        name: 'Aloo Paratha with Curd',
+        name: 'Poha with Peanut Tadka',
         mealType: 'breakfast',
         is_Veg: true,
-        description: 'Hot potato-stuffed paratha with curd and pickle.',
-        price: 80,
+        description: 'Light and fluffy poha with peanuts, curry leaves, and lemon.',
+        image:
+          'https://images.unsplash.com/photo-1645177628172-a94c1f96e6db?auto=format&fit=crop&w=900&q=80',
+        price: 45,
         is_Available: true,
         extras: [
-          { name: 'Extra Curd', price: 20, is_Available: true },
-          { name: 'Butter', price: 15, is_Available: true },
-          { name: 'Pickle', price: 10, is_Available: true },
+          { name: 'Sev Topping', price: 8, is_Available: true },
+          { name: 'Extra Lemon', price: 5, is_Available: true },
+          { name: 'Curd', price: 15, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Idli Sambar (3 pcs)',
+        mealType: 'breakfast',
+        is_Veg: true,
+        description: 'Soft idlis served with home-style sambar and coconut chutney.',
+        image:
+          'https://images.unsplash.com/photo-1666001086814-228c620c735e?auto=format&fit=crop&w=900&q=80',
+        price: 55,
+        is_Available: true,
+        extras: [
+          { name: 'Extra Sambar', price: 12, is_Available: true },
+          { name: 'Extra Chutney', price: 10, is_Available: true },
+          { name: 'Mini Vada', price: 15, is_Available: true },
         ],
       },
       {
@@ -101,115 +119,145 @@ const seedDatabase = async () => {
         name: 'Masala Dosa',
         mealType: 'breakfast',
         is_Veg: true,
-        description: 'Crispy dosa with potato masala, chutney, and sambar.',
+        description: 'Crispy masala dosa with potato filling, chutney, and sambar.',
+        image:
+          'https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&fit=crop&w=900&q=80',
+        price: 75,
+        is_Available: true,
+        extras: [
+          { name: 'Extra Sambar', price: 12, is_Available: true },
+          { name: 'Ghee Roast Add-on', price: 20, is_Available: true },
+          { name: 'Filter Coffee', price: 20, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Aloo Paratha with Curd',
+        mealType: 'breakfast',
+        is_Veg: true,
+        description: 'Two homemade aloo parathas served with curd and pickle.',
+        image:
+          'https://images.unsplash.com/photo-1642821373181-696a54913e93?auto=format&fit=crop&w=900&q=80',
+        price: 70,
+        is_Available: true,
+        extras: [
+          { name: 'Extra Curd', price: 15, is_Available: true },
+          { name: 'White Butter', price: 12, is_Available: true },
+          { name: 'Pickle', price: 6, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Dal Khichdi Bowl',
+        mealType: 'lunch',
+        is_Veg: true,
+        description: 'Comforting dal khichdi made with rice, moong dal, and ghee tadka.',
+        image:
+          'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80',
+        price: 85,
+        is_Available: true,
+        extras: [
+          { name: 'Papad', price: 10, is_Available: true },
+          { name: 'Curd', price: 15, is_Available: true },
+          { name: 'Ghee Drizzle', price: 12, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Rajma Chawal',
+        mealType: 'lunch',
+        is_Veg: true,
+        description: 'Slow-cooked rajma served with steamed rice and salad.',
+        image:
+          'https://images.unsplash.com/photo-1640674786349-2b90f4f8b59f?auto=format&fit=crop&w=900&q=80',
+        price: 95,
+        is_Available: true,
+        extras: [
+          { name: 'Extra Rice', price: 20, is_Available: true },
+          { name: 'Onion Salad', price: 10, is_Available: true },
+          { name: 'Papad', price: 10, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Ghar Ka Veg Thali',
+        mealType: 'lunch',
+        is_Veg: true,
+        description: 'Daily veg thali with dal, sabzi, roti, rice, and pickle.',
+        image:
+          'https://images.unsplash.com/photo-1626500155537-93690c24099e?auto=format&fit=crop&w=900&q=80',
+        price: 110,
+        is_Available: true,
+        extras: [
+          { name: 'Papad', price: 10, is_Available: true },
+          { name: 'Extra Roti', price: 12, is_Available: true },
+          { name: 'Raita', price: 20, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Egg Curry with Rice',
+        mealType: 'dinner',
+        is_Veg: false,
+        description: 'Home-style egg curry served with jeera rice.',
+        image:
+          'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=900&q=80',
+        price: 105,
+        is_Available: true,
+        extras: [
+          { name: 'Extra Boiled Egg', price: 18, is_Available: true },
+          { name: 'Extra Rice', price: 20, is_Available: true },
+          { name: 'Onion Salad', price: 10, is_Available: true },
+        ],
+      },
+      {
+        messId: primaryMess._id,
+        name: 'Chapati Sabzi Combo',
+        mealType: 'dinner',
+        is_Veg: true,
+        description: 'Four chapatis with seasonal sabzi and dal tadka.',
+        image:
+          'https://images.unsplash.com/photo-1631452180539-96aca7d48617?auto=format&fit=crop&w=900&q=80',
         price: 90,
         is_Available: true,
         extras: [
-          { name: 'Extra Chutney', price: 10, is_Available: true },
-          { name: 'Extra Sambar', price: 15, is_Available: true },
-          { name: 'Ghee Roast Add-on', price: 25, is_Available: true },
+          { name: 'Extra Chapati', price: 8, is_Available: true },
+          { name: 'Curd', price: 15, is_Available: true },
+          { name: 'Jeera Rice', price: 25, is_Available: true },
         ],
       },
       {
         messId: primaryMess._id,
-        name: 'Paneer Butter Masala Thali',
-        mealType: 'lunch',
-        is_Veg: true,
-        description: 'Paneer gravy, dal, roti, rice, salad, and sweet.',
-        price: 180,
-        is_Available: true,
-        extras: [
-          { name: 'Papad', price: 15, is_Available: true },
-          { name: 'Extra Roti', price: 12, is_Available: true },
-          { name: 'Raita', price: 25, is_Available: true },
-        ],
-      },
-      {
-        messId: primaryMess._id,
-        name: 'Chicken Biryani',
-        mealType: 'lunch',
-        is_Veg: false,
-        description: 'Aromatic basmati rice with tender chicken pieces.',
-        price: 220,
-        is_Available: true,
-        extras: [
-          { name: 'Boiled Egg', price: 20, is_Available: true },
-          { name: 'Raita', price: 25, is_Available: true },
-          { name: 'Salad', price: 15, is_Available: true },
-        ],
-      },
-      {
-        messId: primaryMess._id,
-        name: 'Kadai Paneer',
-        mealType: 'dinner',
-        is_Veg: true,
-        description: 'Paneer and bell peppers in rich kadai masala.',
-        price: 190,
-        is_Available: true,
-        extras: [
-          { name: 'Butter Naan', price: 35, is_Available: true },
-          { name: 'Jeera Rice', price: 60, is_Available: true },
-          { name: 'Green Salad', price: 20, is_Available: true },
-        ],
-      },
-      {
-        messId: primaryMess._id,
-        name: 'Tandoori Chicken',
-        mealType: 'dinner',
-        is_Veg: false,
-        description: 'Tender tandoori chicken served with mint chutney.',
-        price: 280,
-        is_Available: true,
-        extras: [
-          { name: 'Mint Dip', price: 10, is_Available: true },
-          { name: 'Onion Salad', price: 15, is_Available: true },
-          { name: 'Roomali Roti', price: 20, is_Available: false },
-        ],
-      },
-      {
-        messId: primaryMess._id,
-        name: 'Samosa (2 pieces)',
+        name: 'Samosa Chaat',
         mealType: 'snack',
         is_Veg: true,
-        description: 'Crispy samosa served with sweet and spicy chutneys.',
-        price: 40,
+        description: 'Crushed samosa topped with curd, chutneys, and sev.',
+        image:
+          'https://images.unsplash.com/photo-1606491048802-8342506d6471?auto=format&fit=crop&w=900&q=80',
+        price: 50,
         is_Available: true,
         extras: [
-          { name: 'Green Chutney', price: 8, is_Available: true },
-          { name: 'Sweet Chutney', price: 8, is_Available: true },
-          { name: 'Fried Chili', price: 5, is_Available: true },
-        ],
-      },
-      {
-        messId: primaryMess._id,
-        name: 'Paneer Tikka',
-        mealType: 'snack',
-        is_Veg: true,
-        description: 'Char-grilled paneer cubes with smoky spice flavor.',
-        price: 180,
-        is_Available: true,
-        extras: [
-          { name: 'Mint Dip', price: 10, is_Available: true },
-          { name: 'Laccha Onion', price: 15, is_Available: true },
-          { name: 'Extra Paneer Cubes', price: 60, is_Available: true },
+          { name: 'Extra Curd', price: 12, is_Available: true },
+          { name: 'Extra Sev', price: 8, is_Available: true },
+          { name: 'Green Chutney', price: 6, is_Available: true },
         ],
       },
     ]);
 
-    const paneerThali = meals.find((m) => m.name === 'Paneer Butter Masala Thali');
-    const chickenBiryani = meals.find((m) => m.name === 'Chicken Biryani');
+    const vegThali = meals.find((m) => m.name === 'Ghar Ka Veg Thali');
+    const eggCurryRice = meals.find((m) => m.name === 'Egg Curry with Rice');
     const masalaDosa = meals.find((m) => m.name === 'Masala Dosa');
 
-    const thaliPapad = paneerThali.extras.find((e) => e.name === 'Papad');
-    const thaliRaita = paneerThali.extras.find((e) => e.name === 'Raita');
-    const biryaniEgg = chickenBiryani.extras.find((e) => e.name === 'Boiled Egg');
+    const thaliPapad = vegThali.extras.find((e) => e.name === 'Papad');
+    const thaliRaita = vegThali.extras.find((e) => e.name === 'Raita');
+    const eggAddOn = eggCurryRice.extras.find((e) => e.name === 'Extra Boiled Egg');
     const dosaSambar = masalaDosa.extras.find((e) => e.name === 'Extra Sambar');
 
     const order1Items = [
       {
-        mealId: paneerThali._id,
+        mealId: vegThali._id,
         quantity: 1,
-        price: paneerThali.price,
+        price: vegThali.price,
         selectedExtras: [
           { extraId: thaliPapad?._id, name: thaliPapad.name, price: thaliPapad.price },
           { extraId: thaliRaita?._id, name: thaliRaita.name, price: thaliRaita.price },
@@ -219,11 +267,11 @@ const seedDatabase = async () => {
 
     const order2Items = [
       {
-        mealId: chickenBiryani._id,
+        mealId: eggCurryRice._id,
         quantity: 2,
-        price: chickenBiryani.price,
+        price: eggCurryRice.price,
         selectedExtras: [
-          { extraId: biryaniEgg?._id, name: biryaniEgg.name, price: biryaniEgg.price },
+          { extraId: eggAddOn?._id, name: eggAddOn.name, price: eggAddOn.price },
         ],
       },
     ];
