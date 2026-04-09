@@ -7,6 +7,7 @@ import getUserRouter from "./User.routes.js";
 import reviewRouter from "./review.routes.js";
 import contactusRouter from "./contactus.routes.js";
 import ownerRouter from "./owner.routes.js";
+import uploadsRouter from "./uploads.routes.js";
 
 export {
   authRouter,
@@ -18,4 +19,5 @@ export {
   contactusRouter,
   reviewRouter,
   ownerRouter,
+  uploadsRouter,
 };

@@ -7,6 +7,7 @@ export const CustomerSchema = Joi.object({
     .pattern(/^[6-9]\d{9}$/)
     .required(),
   address: Joi.string().min(10).max(300).required(),
+  profileImage: Joi.string().uri(),
 });
 
 export const OwnerSchema = Joi.object({
@@ -14,12 +15,14 @@ export const OwnerSchema = Joi.object({
     .pattern(/^[6-9]\d{9}$/)
     .required(),
   address: Joi.string().min(10).max(300).required(),
+  profileImage: Joi.string().uri(),
 });
 
 export const UpdateProfileSchema = Joi.object({
   name: Joi.string().min(3).max(100),
   phone: Joi.string().pattern(/^[6-9]\d{9}$/),
   address: Joi.string().min(10).max(300),
+  profileImage: Joi.string().uri(),
   is_Active: Joi.boolean(),
 });
 

@@ -14,6 +14,7 @@ import {
   reviewRouter,
   contactusRouter,
   ownerRouter,
+  uploadsRouter,
 } from "./routes/index.js";
 
 import errorHandler from "./middleware/error.middelware.js";
@@ -102,6 +103,7 @@ app.get("/about", (req, res) => {
       users: "/users",
       contacts: "/contacts",
       owner: "/owner",
+      uploads: "/uploads",
     }
   });
 });
@@ -119,6 +121,7 @@ app.use("/orders", orderRouter);
 app.use("/reviews", reviewRouter);
 app.use("/contacts", contactusRouter);
 app.use("/owner", ownerRouter);
+app.use("/uploads", uploadsRouter);
 
 
 // Handle 404 for undefined routes

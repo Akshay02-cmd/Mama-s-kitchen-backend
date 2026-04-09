@@ -19,6 +19,10 @@ const OwnerSchema = new mongoose.Schema(
       minlength: 10,
       maxlength: 300,
     },
+    profileImage: {
+      type: String,
+      trim: true,
+    },
     isProfileCompleted: {
       type: Boolean,
       default: false,
