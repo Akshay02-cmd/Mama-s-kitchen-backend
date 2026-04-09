@@ -27,6 +27,9 @@ const envSchema = Joi.object({
   JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: Joi.number()
     .default(10)
     .description("minutes after which verify email token expires"),
+  CLOUDINARY_CLOUD_NAME: Joi.string().allow(""),
+  CLOUDINARY_API_KEY: Joi.string().allow(""),
+  CLOUDINARY_API_SECRET: Joi.string().allow(""),
 }).unknown();
 const { error, value: envVars } = envSchema.validate(process.env);
 
@@ -47,6 +50,11 @@ const config = {
     resetPasswordExpirationMinutes:
       envVars.JWT_RESET_PASSWORD_EXPIRATION_MINUTES,
     verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
+  },
+  cloudinary: {
+    cloudName: envVars.CLOUDINARY_CLOUD_NAME,
+    apiKey: envVars.CLOUDINARY_API_KEY,
+    apiSecret: envVars.CLOUDINARY_API_SECRET,
   },
 };
 

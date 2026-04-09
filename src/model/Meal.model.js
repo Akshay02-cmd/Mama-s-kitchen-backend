@@ -50,6 +50,10 @@ const MealSchema = new mongoose.Schema(
       minlength: 10,
       maxlength: 500,
     },
+    image: {
+      type: String,
+      trim: true,
+    },
     price: {
       type: Number,
       required: true,
