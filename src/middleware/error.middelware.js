@@ -2,10 +2,12 @@ const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   
-  // Log the error for debugging
-  console.error(`[${new Date().toISOString()}] Error ${statusCode}:`, message);
-  if (statusCode >= 500) {
-    console.error('Stack trace:', err.stack);
+  // Log the error for debugging (development only)
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(`[${new Date().toISOString()}] Error ${statusCode}:`, message);
+    if (statusCode >= 500) {
+      console.error('Stack trace:', err.stack);
+    }
   }
   
   res.status(statusCode).json({
