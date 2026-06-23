@@ -5,7 +5,7 @@
  */
 
 import { StatusCodes } from "http-status-codes";
-import ownerService from "../services/owner.service.js";
+import { ownerService } from "../services/index.js";
 import catchAsync from "../utils/catchAsync.js";
 
 /**

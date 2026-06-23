@@ -1,5 +1,5 @@
-import cloudinary, { isCloudinaryConfigured } from "../config/cloudinary.js";
-import { BadRequestError } from "../errors/index.js";
+import cloudinary, { isCloudinaryConfigured } from "../../config/cloudinary.js";
+import { BadRequestError } from "../../errors/index.js";
 
 export const uploadImageToCloudinary = async (file, options = {}) => {
   if (!file) {
