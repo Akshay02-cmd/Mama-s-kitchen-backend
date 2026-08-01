@@ -1,4 +1,10 @@
-const allRoles = {
+interface userRoles {
+  user: string[];
+  admin: string[];
+  owner: string[];
+  customer: string[];
+}
+const allRoles: userRoles = {
   user: [
     "deleteContactUs",
     "getContactUs",
@@ -26,7 +32,7 @@ const allRoles = {
     "updateMeal",
     "deleteMeal",
   ],
-  customer: ["createContactUs", "getallMeals","getMeal"],
+  customer: ["createContactUs", "getallMeals", "getMeal"],
 };
 
 export default allRoles;

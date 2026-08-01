@@ -38,7 +38,7 @@ const envAllowedOrigins = (process.env.CORS_ORIGINS || "")
 
 const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
 
-const isAllowedOrigin = (origin) => {
+const isAllowedOrigin = (origin: string | undefined) => {
   if (!origin) return true;
 
   if (allowedOrigins.includes(origin)) {
@@ -61,7 +61,7 @@ const isAllowedOrigin = (origin) => {
 };
 
 const corsOptions = {
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: Function) => {
     if (isAllowedOrigin(origin)) {
       return callback(null, true);
     }

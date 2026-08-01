@@ -1,11 +1,11 @@
 import app from "./app.js";
-import config from "./config/config.js";
+import config  from "./config/config.js";
 import connectDB from "./config/connectDB.js";
 
 const PORT = config.port || 5000;
 const MONGO_URI = config.mongoose.url;
 
-const start = async () => {
+const start = async (): Promise<void> => {
   if (!PORT) {
     console.error("PORT is not defined in environment variables");
     process.exit(1);

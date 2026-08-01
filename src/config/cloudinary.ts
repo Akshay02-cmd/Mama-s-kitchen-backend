@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import config from "./config.js";
 
+
 const hasCloudinaryConfig = Boolean(
   config.cloudinary.cloudName &&
   config.cloudinary.apiKey &&

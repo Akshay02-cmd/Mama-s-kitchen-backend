@@ -1,0 +1,82 @@
+import dotenv from "dotenv";
+import path from "path";
+import Joi from "joi";
+import { fileURLToPath } from "url";
+import type { config } from "process";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, "../../.env") });
+
+const envVarsSchema = Joi.object({
+    NODE_ENV: Joi.string()
+        .valid("development", "production", "test")
+        .default("development"),
+    PORT: Joi.number().default(3000),
+    MONGODB_URL: Joi.string().required().description("Mongo DB url"),
+    JWT_SECRET: Joi.string().required().description("JWT secret key"),
+    JWT_ACCESS_EXPIRATION_MINUTES: Joi.number()
+        .default(10080)
+        .description("minutes after which access tokens expire"),  // Default: 7 days (10080 minutes)
+    JWT_REFRESH_EXPIRATION_DAYS: Joi.number()
+        .default(30)
+        .description("days after which refresh tokens expire"),
+    JWT_RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number()
+        .default(10)
+        .description("minutes after which reset password token expires"),
+    JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: Joi.number()
+        .default(10)
+        .description("minutes after which verify email token expires"),
+    CLOUDINARY_CLOUD_NAME: Joi.string().allow(""),
+    CLOUDINARY_API_KEY: Joi.string().allow(""),
+    CLOUDINARY_API_SECRET: Joi.string().allow(""),
+}).unknown();
+
+const { value: envVars, error } = envVarsSchema.validate(process.env);
+if (error) {
+    throw new Error(`Config validation error: ${error.message}`);
+}   
+
+interface IConfig {
+    env: string;
+    port: number;
+    mongoose: {
+        url: string;
+    };
+    jwt: {
+        secret: string;
+        accessExpirationMinutes: number;
+        refreshExpirationDays: number;
+        resetPasswordExpirationMinutes: number;
+        verifyEmailExpirationMinutes: number;
+    };
+    cloudinary: {
+        cloudName: string;
+        apiKey: string;
+        apiSecret: string;
+    };
+}
+
+const configaration: IConfig = {
+    env: envVars.NODE_ENV,
+  port: envVars.PORT,
+  mongoose: {
+    url: envVars.MONGODB_URL,
+  },
+  jwt: {
+    secret: envVars.JWT_SECRET,
+    accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
+    refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
+    resetPasswordExpirationMinutes:
+      envVars.JWT_RESET_PASSWORD_EXPIRATION_MINUTES,
+    verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
+  },
+  cloudinary: {
+    cloudName: envVars.CLOUDINARY_CLOUD_NAME,
+    apiKey: envVars.CLOUDINARY_API_KEY,
+    apiSecret: envVars.CLOUDINARY_API_SECRET,
+  },
+};
+
+export default configaration;

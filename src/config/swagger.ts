@@ -1,8 +1,4 @@
-/**
- * @fileoverview Swagger Configuration
- * @module config/swagger
- * @description Swagger/OpenAPI configuration for API documentation
- */
+
 
 import swaggerJsdoc from 'swagger-jsdoc';
 
