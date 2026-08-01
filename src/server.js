@@ -1,6 +1,6 @@
 import app from "./app.js";
 import config from "./config/config.js";
-import connectDB from "./services/connectDB.js";
+import connectDB from "./config/connectDB.js";
 
 const PORT = config.port || 5000;
 const MONGO_URI = config.mongoose.url;

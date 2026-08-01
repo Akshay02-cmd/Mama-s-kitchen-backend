@@ -1,19 +1,9 @@
-/**
- * @fileoverview Owner Service
- * @module services/owner.service
- * @description Business logic for owner dashboard and statistics
- */
 
-import Mess from "../model/Mess.model.js";
-import Order from "../model/order.model.js";
-import Meal from "../model/Meal.model.js";
-import { NotFoundError } from "../errors/index.js";
 
-/**
- * Get owner dashboard statistics
- * @param {string} ownerId - Owner user ID
- * @returns {Promise<Object>} Dashboard statistics
- */
+import { Mess, Meal, Order } from "../../repository/index.js";
+import { NotFoundError } from "../../errors/index.js";
+
+
 export const getOwnerDashboardStats = async (ownerId) => {
   // Get all messes owned by this owner
   const messes = await Mess.find({ ownerId });
@@ -70,11 +60,7 @@ export const getOwnerDashboardStats = async (ownerId) => {
   };
 };
 
-/**
- * Get all messes owned by an owner
- * @param {string} ownerId - Owner user ID
- * @returns {Promise<Array>} Array of mess objects with statistics
- */
+
 export const getOwnerMesses = async (ownerId) => {
   const messes = await Mess.find({ ownerId })
     .populate("ownerId", "name email")
@@ -117,11 +103,7 @@ export const getOwnerMesses = async (ownerId) => {
   return messesWithStats;
 };
 
-/**
- * Get meals for a specific mess
- * @param {string} messId - Mess ID
- * @returns {Promise<Array>} Array of meals
- */
+
 export const getMessMeals = async (messId) => {
   const meals = await Meal.find({ messId })
     .populate("messId", "name area")
@@ -130,12 +112,7 @@ export const getMessMeals = async (messId) => {
   return meals;
 };
 
-/**
- * Get orders for a specific mess
- * @param {string} messId - Mess ID
- * @param {string} [status] - Optional status filter
- * @returns {Promise<Array>} Array of orders
- */
+
 export const getMessOrders = async (messId, status = null) => {
   // First get all meals for this mess
   const meals = await Meal.find({ messId });
@@ -159,11 +136,6 @@ export const getMessOrders = async (messId, status = null) => {
   return orders;
 };
 
-/**
- * Get mess statistics
- * @param {string} messId - Mess ID
- * @returns {Promise<Object>} Mess statistics
- */
 export const getMessStats = async (messId) => {
   // Get meals for this mess
   const meals = await Meal.find({ messId });
