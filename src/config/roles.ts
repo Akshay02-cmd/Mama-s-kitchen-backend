@@ -1,10 +1,43 @@
-interface userRoles {
-  user: string[];
-  admin: string[];
-  owner: string[];
-  customer: string[];
+
+enum user {
+  "deleteContactUs",
+  "getContactUs",
+  "groupContactUsByUser",
+  "deleteAllContactUs",
+  "getAllContactUs",
 }
-const allRoles: userRoles = {
+
+enum admin {
+  "getallMesses",
+  "getMess",
+  "deleteAllContactUs",
+  "getAllContactUs",
+  "getContactUsById",
+  "GroupContactUsByUser",
+  "deleteContactUs",
+  "getallMeals",
+}
+
+enum owner {
+  "getMess",
+  "createMess",
+  "updateMess",
+  "deleteMess",
+  "getallMeals",
+  "createMeal",
+  "updateMeal",
+  "deleteMeal",
+}
+
+enum customer {
+  "createContactUs",
+  "getallMeals",
+  "getMeal",
+}
+
+
+
+const allRoles = {
   user: [
     "deleteContactUs",
     "getContactUs",

@@ -1,6 +1,18 @@
 import mongoose from "mongoose";
 
-const MessSchema = new mongoose.Schema(
+interface IMess {
+  ownerId: mongoose.Types.ObjectId;
+  name: string;
+  area: string;
+  phone: string;
+  address: string;
+  description: string;
+  is_Active: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const MessSchema: mongoose.Schema<IMess> = new mongoose.Schema(
   {
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +56,6 @@ const MessSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const Mess = mongoose.model("Mess", MessSchema);
+const Mess: mongoose.Model<IMess> = mongoose.model("Mess", MessSchema);
 
 export default Mess;

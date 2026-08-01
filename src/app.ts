@@ -1,6 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+import cors, { type CorsOptions } from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 
@@ -59,6 +59,7 @@ const isAllowedOrigin = (origin: string | undefined) => {
 
   return false;
 };
+
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: Function) => {

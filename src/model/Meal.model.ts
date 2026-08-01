@@ -1,6 +1,30 @@
 import mongoose from "mongoose";
 
-const ExtraItemSchema = new mongoose.Schema(
+interface IMeal {
+  messId: mongoose.Types.ObjectId;
+  name: string;
+  mealType: "breakfast" | "lunch" | "dinner" | "snack";
+  is_Veg: boolean;
+  description: string;
+  image?: string;
+  price: number;
+  is_Available: boolean;
+  extras?: {
+    name: string;
+    price: number;
+    is_Available: boolean;
+  }[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface IExtraItem {
+  name: string;
+  price: number;
+  is_Available: boolean;
+}
+
+const ExtraItemSchema: mongoose.Schema<IExtraItem> = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -22,7 +46,7 @@ const ExtraItemSchema = new mongoose.Schema(
   { _id: true }
 );
 
-const MealSchema = new mongoose.Schema(
+const MealSchema: mongoose.Schema<IMeal> = new mongoose.Schema(
   {
     messId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -72,5 +96,5 @@ const MealSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Meal = mongoose.model("Meal", MealSchema);
+const Meal: mongoose.Model<IMeal> = mongoose.model("Meal", MealSchema);
 export default Meal;

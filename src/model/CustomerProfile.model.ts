@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 
-const CustomerSchema = new mongoose.Schema(
+interface ICustomerProfile {
+  userId: mongoose.Types.ObjectId;
+  phone: string;
+  address: string;
+  profileImage?: string;
+  isProfileCompleted: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const CustomerSchema: mongoose.Schema<ICustomerProfile> = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +42,6 @@ const CustomerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Customer =  mongoose.model("Customer", CustomerSchema)
+const Customer: mongoose.Model<ICustomerProfile> = mongoose.model("Customer", CustomerSchema);
 
 export default Customer;

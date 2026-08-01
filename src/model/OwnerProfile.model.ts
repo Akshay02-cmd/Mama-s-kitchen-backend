@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
+import type Mess from "./Mess.model.js";
 
-const OwnerSchema = new mongoose.Schema(
+interface IOwnerProfile {
+  userId: mongoose.Types.ObjectId;
+  phone: string;
+  address: string;
+  profileImage?: string;
+  isProfileCompleted: boolean;
+}
+
+const OwnerSchema: mongoose.Schema<IOwnerProfile> = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +41,6 @@ const OwnerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Mess = mongoose.model("Owner", OwnerSchema);
+const Owner: mongoose.Model<IOwnerProfile>   = mongoose.model("Owner", OwnerSchema);
 
-export default Mess;
+export default Owner;

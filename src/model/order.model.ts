@@ -1,6 +1,33 @@
 import mongoose from "mongoose";
 
-const OrderSchema = new mongoose.Schema(
+interface IOrderItem {
+  mealId: mongoose.Types.ObjectId;
+  quantity: number;
+  price: number;
+  selectedExtras?: {
+    extraId: mongoose.Types.ObjectId;
+    name: string;
+    price: number;
+  }[];
+}
+
+interface IOrder {
+  userId: mongoose.Types.ObjectId;
+  orderItems: IOrderItem[];
+  totalAmount: number;
+  deliveryAddress: string;
+  deliveryPhone: string;
+  status: "PLACED" | "PREPARING" | "DELIVERED" | "CANCELLED";
+  paymentMethod: "CREDIT_CARD" | "DEBIT_CARD" | "UPI" | "COD";
+  paymentStatus: "PENDING" | "COMPLETED" | "FAILED";
+  paymentId?: string;
+  notes?: string;
+  deliveryTime?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const OrderSchema: mongoose.Schema<IOrder> = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -73,5 +100,5 @@ const OrderSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Order = mongoose.model("Order", OrderSchema);
+const Order: mongoose.Model<IOrder> = mongoose.model("Order", OrderSchema);
 export default Order;

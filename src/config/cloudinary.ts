@@ -10,9 +10,9 @@ const hasCloudinaryConfig = Boolean(
 
 if (hasCloudinaryConfig) {
   cloudinary.config({
-    cloud_name: config.cloudinary.cloudName,
-    api_key: config.cloudinary.apiKey,
-    api_secret: config.cloudinary.apiSecret,
+    cloud_name: config.cloudinary.cloudName || "",
+    api_key: config.cloudinary.apiKey || "",
+    api_secret: config.cloudinary.apiSecret || "",
   });
 }
 

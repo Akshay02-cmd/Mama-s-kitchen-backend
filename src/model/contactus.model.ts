@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 
-const contactUsSchema = new mongoose.Schema(
+interface IContactUs {
+  userID: mongoose.Types.ObjectId;
+  name: string;
+  email: string;
+  phone?: string;
+  subject?: string;
+  message: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const contactUsSchema: mongoose.Schema<IContactUs> = new mongoose.Schema(
   {
     userID: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
@@ -12,6 +23,6 @@ const contactUsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const ContactUs = mongoose.model("ContactUs", contactUsSchema);
+const ContactUs: mongoose.Model<IContactUs> = mongoose.model("ContactUs", contactUsSchema);
 
 export default ContactUs;
