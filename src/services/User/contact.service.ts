@@ -1,4 +1,4 @@
-import { contact } from "../../repository/index.js";
+import { contact as contactRepo } from "../../repository/index.js";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
 export const createContact = async (contactData) => {
@@ -8,7 +8,7 @@ export const createContact = async (contactData) => {
     throw new BadRequestError("All fields are required");
   }
 
-  const contact = await contact.ContactCreate({
+  const contact = await contactRepo.ContactCreate({
     userID,
     name,
     email,
@@ -25,7 +25,7 @@ export const createContact = async (contactData) => {
 };
 
 export const getAllContacts = async () => {
-  const contacts = await contact.ContactGetAll();
+  const contacts = await contactRepo.ContactGetAll();
 
   if (!contacts || contacts.length === 0) {
     throw new NotFoundError("No contact us messages found");
@@ -35,7 +35,7 @@ export const getAllContacts = async () => {
 };
 
 export const getContactById = async (contactId) => {
-  const contact = await contact.ContactGetById(contactId);
+  const contact = await contactRepo.ContactGetById(contactId);
 
   if (!contact) {
     throw new NotFoundError(
@@ -47,7 +47,7 @@ export const getContactById = async (contactId) => {
 };
 
 export const getContactsGroupedByUser = async () => {
-  const groupedData = await contact.ContactGroupedByUser();
+  const groupedData = await contactRepo.ContactGroupedByUser();
 
   if (!groupedData || groupedData.length === 0) {
     throw new NotFoundError("No contact us messages found to group");
@@ -57,7 +57,7 @@ export const getContactsGroupedByUser = async () => {
 };
 
 export const deleteContact = async (contactId) => {
-  const contact = await contact.ContactDelete(contactId);
+  const contact = await contactRepo.ContactDelete(contactId);
 
   if (!contact) {
     throw new NotFoundError(
@@ -69,14 +69,14 @@ export const deleteContact = async (contactId) => {
 };
 
 export const deleteAllContacts = async () => {
-  const result = await contact.ContactDeleteMany();
+  const result = await contactRepo.ContactDeleteMany();
   return result.deletedCount;
 };
 
 export const getContactStatistics = async () => {
   const [totalContacts, uniqueUsers] = await Promise.all([
-    contact.ContactGetCount(),
-    contact.uniqueUser(),
+    contactRepo.ContactGetCount(),
+    contactRepo.uniqueUser(),
   ]);
 
   return {

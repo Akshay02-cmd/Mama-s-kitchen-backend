@@ -1,7 +1,19 @@
 import ContactUs from "../../model/contactus.model.js";
 
 class Contact {
-  async ContactCreate(contactData) {
+  async create(contactData: any) {
+    return ContactUs.create(contactData);
+  }
+
+  find(filters: any = {}) {
+    return ContactUs.find(filters);
+  }
+
+  countDocuments(filters: any = {}) {
+    return ContactUs.countDocuments(filters);
+  }
+
+  async ContactCreate(contactData: any) {
     return ContactUs.create(contactData);
   }
 
@@ -11,7 +23,7 @@ class Contact {
       .sort({ createdAt: -1 });
   }
 
-  async ContactGetById(contactId) {
+  async ContactGetById(contactId: any) {
     return ContactUs.findById(contactId).populate("userID", "name email");
   }
 
@@ -49,7 +61,7 @@ class Contact {
     ]);
   }
 
-  async ContactDelete(contactId) {
+  async ContactDelete(contactId: any) {
     return ContactUs.findByIdAndDelete(contactId);
   }
 

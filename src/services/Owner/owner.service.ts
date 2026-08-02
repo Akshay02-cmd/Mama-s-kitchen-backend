@@ -119,7 +119,7 @@ export const getMessOrders = async (messId, status = null) => {
   const mealIds = meals.map(meal => meal._id);
 
   // Build query for orders
-  const query = {
+  const query: any = {
     "orderItems.mealId": { $in: mealIds }
   };
 

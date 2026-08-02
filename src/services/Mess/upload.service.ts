@@ -1,7 +1,7 @@
 import cloudinary, { isCloudinaryConfigured } from "../../config/cloudinary.js";
 import { BadRequestError } from "../../errors/index.js";
 
-export const uploadImageToCloudinary = async (file, options = {}) => {
+export const uploadImageToCloudinary = async (file, options: any = {}) => {
   if (!file) {
     throw new BadRequestError("Image file is required");
   }

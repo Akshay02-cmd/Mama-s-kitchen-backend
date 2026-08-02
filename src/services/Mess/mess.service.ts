@@ -1,7 +1,7 @@
 import { Mess } from "../../repository/index.js";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
-export const createMess = async (ownerId, messData) => {
+export const createMess = async (ownerId: any, messData: any) => {
   const mess = await Mess.MessCreate(ownerId, messData);
 
   if (!mess) {
@@ -11,7 +11,7 @@ export const createMess = async (ownerId, messData) => {
   return mess;
 };
 
-export const getMessById = async (messId) => {
+export const getMessById = async (messId: any) => {
   if (!messId) {
     throw new NotFoundError("Mess ID is required");
   }
@@ -25,9 +25,9 @@ export const getMessById = async (messId) => {
   return mess;
 };
 
-export const getAllMesses = async (filters = {}) => {
+export const getAllMesses = async (filters: any = {}) => {
   const { area, search, is_Active } = filters;
-  const queryObject = {};
+  const queryObject: any = {};
 
   // Filter by area
   if (area) {
@@ -53,7 +53,7 @@ export const getAllMesses = async (filters = {}) => {
   return messes || [];
 };
 
-export const updateMess = async (messId, updateData) => {
+export const updateMess = async (messId: any, updateData: any) => {
   const mess = await Mess.MessUpdateById(messId, updateData);
 
   if (!mess) {
@@ -63,7 +63,7 @@ export const updateMess = async (messId, updateData) => {
   return mess;
 };
 
-export const deleteMess = async (messId) => {
+export const deleteMess = async (messId: any) => {
   const mess = await Mess.MessDeleteById(messId);
 
   if (!mess) {
@@ -73,13 +73,13 @@ export const deleteMess = async (messId) => {
   return mess;
 };
 
-export const getMessesByOwnerId = async (ownerId) => {
+export const getMessesByOwnerId = async (ownerId: any) => {
   const messes = await Mess.MessGetByOwnerId(ownerId);
 
   return messes;
 };
 
-export const verifyMessOwnership = async (messId, ownerId) => {
+export const verifyMessOwnership = async (messId: any, ownerId: any) => {
   const mess = await Mess.MessGetById(messId);
   if (!mess) {
     throw new NotFoundError("Mess not found");

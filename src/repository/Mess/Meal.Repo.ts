@@ -2,7 +2,6 @@ import meal from "../../model/Meal.model.js";
 import mongoose from "mongoose";
 
 interface IMeal {
-  messId: string;
   name: string;
   description: string;
   price: number;
@@ -10,7 +9,11 @@ interface IMeal {
   createdAt?: Date;
 }
 
-type MealDocument = mongoose.HydratedDocument<any, {},IMeal,{}, string> & IMeal & {
+type MealCreateInput = IMeal & {
+  messId?: never;
+};
+
+type MealDocument = mongoose.HydratedDocument<any, {}, IMeal, {}, string> & IMeal & {
   _id: mongoose.Types.ObjectId;
   _v: number;
   createdAt: Date;
@@ -22,46 +25,78 @@ type objectId = mongoose.Types.ObjectId;
 
 
 class Meal {
-  async MealCreate( messId: string, mealData: IMeal): Promise<MealDocument> {
+  find(filters: any = {}) {
+    return meal.find(filters);
+  }
+
+  findById(mealId: any) {
+    return meal.findById(mealId);
+  }
+
+  async create(data: any) {
+    return meal.create(data);
+  }
+
+  findByIdAndUpdate(mealId: any, updateData: any, options: any = {}) {
+    return meal.findByIdAndUpdate(mealId, updateData, options);
+  }
+
+  findByIdAndDelete(mealId: any) {
+    return meal.findByIdAndDelete(mealId);
+  }
+
+  deleteMany(filters: any = {}) {
+    return meal.deleteMany(filters);
+  }
+
+  countDocuments(filters: any = {}) {
+    return meal.countDocuments(filters);
+  }
+
+  exists(filters: any = {}) {
+    return meal.exists(filters);
+  }
+
+  async MealCreate(messId: any, mealData: MealCreateInput): Promise<MealDocument> {
     return await meal.create({
-      messId,
       ...mealData,
+      messId,
     });
   }
 
-  async MealGetById(mealId: string): Promise<MealDocument | null> {
+  async MealGetById(mealId: any): Promise<MealDocument | null> {
     return await meal
       .findById(mealId)
       .populate("messId", "name area")
       .sort({ createdAt: -1 });
   }
 
-  async MealGetAll(filters = {}): Promise<MealDocument[]> {
+  async MealGetAll(filters: any = {}): Promise<MealDocument[]> {
     return await meal
       .find(filters)
       .populate("messId", "name area address")
       .sort({ createdAt: -1 });
   }
 
-  async MealGetByMessId(messId: string): Promise<MealDocument[]> {
+  async MealGetByMessId(messId: any): Promise<MealDocument[]> {
     return await meal
       .find({ messId })
       .populate("messId", "name area")
       .sort({ createdAt: -1 });
   }
 
-  async MealUpdateById(mealId: string, updateData: IMeal): Promise<MealDocument | null> {
+  async MealUpdateById(mealId: any, updateData: IMeal): Promise<MealDocument | null> {
     return await meal.findByIdAndUpdate(mealId, updateData, {
       new: true,
       runValidators: true,
     });
   }
 
-  async MealDeleteById(mealId: string): Promise<MealDocument | null> {
+  async MealDeleteById(mealId: any): Promise<MealDocument | null> {
     return await meal.findByIdAndDelete(mealId);
   }
 
-  async MealDeleteByMessId(messId: string): Promise<mongoose.DeleteResult> {
+  async MealDeleteByMessId(messId: any): Promise<mongoose.DeleteResult> {
     return await meal.deleteMany({ messId });
   }
 
@@ -69,11 +104,11 @@ class Meal {
     return await meal.deleteMany({});
   }
 
-  async MealCount(filters = {}): Promise<number> {
+  async MealCount(filters: any = {}): Promise<number> {
     return await meal.countDocuments(filters);
   }
 
-  async MealCountByMessId(messId: string): Promise<number> {
+  async MealCountByMessId(messId: any): Promise<number> {
     return await meal.countDocuments({ messId });
   }
 
@@ -81,15 +116,15 @@ class Meal {
     return await meal.countDocuments({});
   }
 
-  async MealExists(mealId: string): Promise<{_id: mongoose.Types.ObjectId} | null> {
+  async MealExists(mealId: any): Promise<{ _id: mongoose.Types.ObjectId } | null> {
     return await meal.exists({ _id: mealId });
   }
 
-  async MealExistsByMessId(messId: string): Promise<{_id: mongoose.Types.ObjectId} | null> {
+  async MealExistsByMessId(messId: any): Promise<{ _id: mongoose.Types.ObjectId } | null> {
     return await meal.exists({ messId });
   }
 
-  async MealExistsAll()  {
+  async MealExistsAll() {
     return await meal.exists({});
   }
 }

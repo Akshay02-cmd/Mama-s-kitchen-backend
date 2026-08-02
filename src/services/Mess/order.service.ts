@@ -1,7 +1,7 @@
 import { Order, Meal } from "../../repository/index.js";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
-export const createOrder = async (userId, orderData) => {
+export const createOrder = async (userId: any, orderData: any) => {
   const {
     items,
     deliveryAddress,
@@ -48,7 +48,7 @@ export const createOrder = async (userId, orderData) => {
   }
 
   // Create order
-  const order = await Order.Ordercreate({
+  const order = await Order.Ordercreate(userId, {
     userId,
     orderItems,
     totalAmount,
@@ -69,7 +69,7 @@ export const createOrder = async (userId, orderData) => {
   return order;
 };
 
-export const getOrderById = async (orderId) => {
+export const getOrderById = async (orderId: any) => {
   const order = await Order.OrderGetById(orderId);
   return order;
 };
@@ -79,32 +79,32 @@ export const getAllOrders = async () => {
   return orders;
 };
 
-export const getUserOrders = async (userId) => {
+export const getUserOrders = async (userId: any) => {
   const orders = await Order.OrderByUserId(userId);
   return orders;
 };
 
-export const updateOrderStatus = async (orderId, updateData) => {
+export const updateOrderStatus = async (orderId: any, updateData: any) => {
   const order = await Order.OrderUpdateStatusById(orderId, updateData);
   return order;
 };
 
-export const deleteOrder = async (orderId) => {
+export const deleteOrder = async (orderId: any) => {
   const order = await Order.OrderDeleteById(orderId);
   return order;
 };
 
-export const clearUserOrders = async (userId) => {
+export const clearUserOrders = async (userId: any) => {
   const result = await Order.OrderDeleteByUserId(userId);
   return result.deletedCount;
 };
 
-export const getOrdersByStatus = async (status) => {
+export const getOrdersByStatus = async (status: any) => {
   const orders = await Order.OrderByStatus(status);
   return orders;
 };
 
-export const getOrdersWithinDateRange = async (startDate, endDate) => {
+export const getOrdersWithinDateRange = async (startDate: any, endDate: any) => {
   const orders = await Order.OrderWithinDateRange(startDate, endDate);
   return orders;
 };
@@ -120,8 +120,8 @@ export const getMonthlySales = async () => {
   return result;
 };
 
-export const getTopSellingMeals = async (limit = 5) => {
-  const result = await Order.MealgetTopSellingMeals(limit);
+export const getTopSellingMeals = async (limit: any = 5) => {
+  const result = await Order.MealgetTopSelling(limit);
 
   // Populate meal details
   const Meal = (await import("../../model/Meal.model.js")).default;

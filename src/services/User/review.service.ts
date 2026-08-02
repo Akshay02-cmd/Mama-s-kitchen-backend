@@ -17,15 +17,13 @@ export const createReview = async (reviewData) => {
     throw new BadRequestError("Invalid review data");
   }
 
-  const populatedReview = await Review.findById(review._id)
-    .populate("user", "name email")
-    .populate("mess", "name area");
+  const populatedReview = await Review.findById(review._id);
 
   return populatedReview;
 };
 
-export const getAllReviews = async (filters = {}) => {
-  const queryObject = {};
+export const getAllReviews = async (filters: any = {}) => {
+  const queryObject: any = {};
   if (filters.mess) {
     queryObject.mess = filters.mess;
   }
@@ -40,9 +38,7 @@ export const getAllReviews = async (filters = {}) => {
 };
 
 export const getReviewById = async (reviewId) => {
-  const review = await Review.findById(reviewId)
-    .populate("user", "name email")
-    .populate("mess", "name area");
+  const review = await Review.findById(reviewId);
 
   if (!review) {
     throw new NotFoundError("Review not found");
@@ -67,12 +63,7 @@ export const updateReview = async (reviewId, userId, updateData) => {
     throw new BadRequestError("Rating must be between 1 and 5");
   }
 
-  const updatedReview = await Review.update(reviewId, updateData, {
-    new: true,
-    runValidators: true,
-  })
-    .populate("user", "name email")
-    .populate("mess", "name area");
+  const updatedReview = await Review.update(reviewId, updateData);
 
   return updatedReview;
 };

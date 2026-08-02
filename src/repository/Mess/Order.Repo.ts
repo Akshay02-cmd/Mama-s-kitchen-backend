@@ -2,8 +2,31 @@ import order from "../../model/order.model.js";
 import Meal from "../../model/Meal.model.js";
 
 class Order {
-  async Ordercreate(userId, orderData) {
+  find(filters: any = {}) {
+    return order.find(filters);
+  }
+
+  findById(orderId: any) {
+    return order.findById(orderId);
+  }
+
+  async create(data: any) {
+    return order.create(data);
+  }
+
+  countDocuments(filters: any = {}) {
+    return order.countDocuments(filters);
+  }
+
+  deleteMany(filters: any = {}) {
+    return order.deleteMany(filters);
+  }
+
+  async Ordercreate(userId: any, orderData: any = undefined) {
+    const payload = orderData ?? userId;
+    const orderUserId = orderData ? userId : payload.userId;
     const {
+      orderItems: orderItemsData,
       items,
       deliveryAddress,
       deliveryPhone,
@@ -13,11 +36,13 @@ class Order {
       paymentId,
       notes,
       deliverytime,
-    } = orderData;
-    return await order.create({
-      userId,
       orderItems,
       totalAmount,
+    } = payload;
+    return await order.create({
+      userId: orderUserId,
+      orderItems: orderItemsData ?? orderItems ?? items,
+      totalAmount: totalAmount ?? 0,
       deliveryAddress,
       deliveryPhone,
       status,
@@ -29,7 +54,7 @@ class Order {
     });
   }
 
-  async OrderGetById(orderId) {
+  async OrderGetById(orderId: any) {
     return await order
       .findById(orderId)
       .populate("userId", "name email")
@@ -44,14 +69,14 @@ class Order {
       .sort({ createdAt: -1 });
   }
 
-  async OrderUpdateById(orderId, updateData) {
+  async OrderUpdateById(orderId: any, updateData: any) {
     return await order.findByIdAndUpdate(orderId, updateData, {
       new: true,
       runValidators: true,
     });
   }
 
-  async OrderByUserId(userId) {
+  async OrderByUserId(userId: any) {
     return await order
       .find({ userId })
       .populate("userId", "name email")
@@ -59,22 +84,22 @@ class Order {
       .sort({ createdAt: -1 });
   }
 
-  async OrderCount(filters = {}) {
+  async OrderCount(filters: any = {}) {
     return await order.countDocuments(filters);
   }
 
-  async OrderUpdateStatusById(orderId, updateData) {
+  async OrderUpdateStatusById(orderId: any, updateData: any) {
     return await order.findByIdAndUpdate(orderId, updateData, {
       new: true,
       runValidators: true,
     });
   }
 
-  async OrderDeleteById(orderId) {
+  async OrderDeleteById(orderId: any) {
     return await order.findByIdAndDelete(orderId);
   }
 
-  async OrderDeleteByUserId(userId) {
+  async OrderDeleteByUserId(userId: any) {
     return await order.deleteMany({ userId });
   }
 
@@ -82,7 +107,7 @@ class Order {
     return await order.deleteMany({});
   }
 
-  async OrderByStatus(status) {
+  async OrderByStatus(status: any) {
     return await order
       .find({ status })
       .populate("userId", "name email")
@@ -90,7 +115,7 @@ class Order {
       .sort({ createdAt: -1 });
   }
 
-  async OrderWithinDateRange(startDate, endDate) {
+  async OrderWithinDateRange(startDate: any, endDate: any) {
     return await order
       .find({
         createdAt: {
@@ -145,7 +170,11 @@ class Order {
     ]);
   }
 
-  async MealsTop(result) {
+  async MealgetTopSellingMeals(limit = 5) {
+    return this.MealgetTopSelling(limit);
+  }
+
+  async MealsTop(result: any) {
     return await Meal.populate(result, { path: "_id" });
   }
 }

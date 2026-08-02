@@ -2,7 +2,7 @@
   "name": "mummas-kitchen-backend",
   "version": "1.0.0",
   "description": "RESTful API backend for Mumma's Kitchen - A meal ordering platform connecting customers with local home-based caterers and mess services",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "type": "module",
   "scripts": {
     "start": "nodemon dist/server.js",
@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "echo \"Linting not configured yet\"",
     "docs": "echo \"API documentation available at http://localhost:5000/api-docs\"",
-    "seed": "node src/seed/seedDatabase.js"
+    "seed": "tsx src/seed/seedDatabase.ts"
   },
   "keywords": [
     "meal-ordering",

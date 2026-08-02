@@ -44,7 +44,7 @@ const ReviewFindByMessId = async (messId) => {
 };
 
 const ReviewAverageRating = async (messId) => {
-  return ReviewModel.aggregate([
+  const result = await ReviewModel.aggregate([
     { $match: { mess: messId } },
     {
       $group: {

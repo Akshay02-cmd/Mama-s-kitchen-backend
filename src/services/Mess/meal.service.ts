@@ -1,7 +1,7 @@
 import { Meal } from "../../repository/index.js";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
-export const createMeal = async (messId, mealData) => {
+export const createMeal = async (messId: any, mealData: any) => {
   const meal = await Meal.MealCreate(messId, mealData);
   if (!meal) {
     throw new BadRequestError("Unable to create meal");
@@ -9,7 +9,7 @@ export const createMeal = async (messId, mealData) => {
   return meal;
 };
 
-export const getMealById = async (mealId) => {
+export const getMealById = async (mealId: any) => {
   const meal = await Meal.MealGetById(mealId);
 
   if (!meal) {
@@ -19,9 +19,9 @@ export const getMealById = async (mealId) => {
   return meal;
 };
 
-export const getAllMeals = async (filters = {}) => {
+export const getAllMeals = async (filters: any = {}) => {
   const { messId, mealType, is_Veg, is_Available } = filters;
-  const queryObject = {};
+  const queryObject: any = {};
   if (messId) {
     queryObject.messId = messId;
   }
@@ -38,7 +38,7 @@ export const getAllMeals = async (filters = {}) => {
   return meals || [];
 };
 
-export const getMealsByMessId = async (messId) => {
+export const getMealsByMessId = async (messId: any) => {
   const meals = await Meal.MealGetByMessId(messId);
   if (!meals || meals.length === 0) {
     throw new NotFoundError("No meals found for this mess");
@@ -46,7 +46,7 @@ export const getMealsByMessId = async (messId) => {
   return meals;
 };
 
-export const updateMeal = async (mealId, updateData) => {
+export const updateMeal = async (mealId: any, updateData: any) => {
   const meal = await Meal.MealUpdateById(mealId, updateData);
   if (!meal) {
     throw new NotFoundError("Meal not found");
@@ -54,7 +54,7 @@ export const updateMeal = async (mealId, updateData) => {
   return meal;
 };
 
-export const deleteMeal = async (mealId) => {
+export const deleteMeal = async (mealId: any) => {
   const meal = await Meal.MealDeleteById(mealId);
   if (!meal) {
     throw new NotFoundError("Meal not found");
@@ -62,7 +62,7 @@ export const deleteMeal = async (mealId) => {
   return meal;
 };
 
-export const verifyMealOwnership = async (mealId, messId) => {
+export const verifyMealOwnership = async (mealId: any, messId: any) => {
   const meal = await Meal.MealGetById(mealId);
   if (!meal) {
     throw new NotFoundError("Meal not found");
@@ -70,7 +70,7 @@ export const verifyMealOwnership = async (mealId, messId) => {
   return meal.messId.toString() === messId.toString();
 };
 
-export const isMealAvailable = async (mealId) => {
+export const isMealAvailable = async (mealId: any) => {
   const meal = await Meal.MealGetById(mealId);
   if (!meal) {
     throw new NotFoundError("Meal not found");

@@ -248,41 +248,41 @@ const seedDatabase = async () => {
     const eggCurryRice = meals.find((m) => m.name === 'Egg Curry with Rice');
     const masalaDosa = meals.find((m) => m.name === 'Masala Dosa');
 
-    const thaliPapad = vegThali.extras.find((e) => e.name === 'Papad');
-    const thaliRaita = vegThali.extras.find((e) => e.name === 'Raita');
-    const eggAddOn = eggCurryRice.extras.find((e) => e.name === 'Extra Boiled Egg');
-    const dosaSambar = masalaDosa.extras.find((e) => e.name === 'Extra Sambar');
+    const thaliPapad = vegThali!.extras.find((e) => e.name === 'Papad')!;
+    const thaliRaita = vegThali!.extras.find((e) => e.name === 'Raita')!;
+    const eggAddOn = eggCurryRice!.extras.find((e) => e.name === 'Extra Boiled Egg')!;
+    const dosaSambar = masalaDosa!.extras.find((e) => e.name === 'Extra Sambar')!;
 
     const order1Items = [
       {
-        mealId: vegThali._id,
+        mealId: vegThali!._id,
         quantity: 1,
-        price: vegThali.price,
+        price: vegThali!.price,
         selectedExtras: [
-          { extraId: thaliPapad?._id, name: thaliPapad.name, price: thaliPapad.price },
-          { extraId: thaliRaita?._id, name: thaliRaita.name, price: thaliRaita.price },
+          { extraId: (thaliPapad as any)._id, name: thaliPapad.name, price: thaliPapad.price },
+          { extraId: (thaliRaita as any)._id, name: thaliRaita.name, price: thaliRaita.price },
         ],
       },
     ];
 
     const order2Items = [
       {
-        mealId: eggCurryRice._id,
+        mealId: eggCurryRice!._id,
         quantity: 2,
-        price: eggCurryRice.price,
+        price: eggCurryRice!.price,
         selectedExtras: [
-          { extraId: eggAddOn?._id, name: eggAddOn.name, price: eggAddOn.price },
+          { extraId: (eggAddOn as any)._id, name: eggAddOn.name, price: eggAddOn.price },
         ],
       },
     ];
 
     const order3Items = [
       {
-        mealId: masalaDosa._id,
+        mealId: masalaDosa!._id,
         quantity: 2,
-        price: masalaDosa.price,
+        price: masalaDosa!.price,
         selectedExtras: [
-          { extraId: dosaSambar?._id, name: dosaSambar.name, price: dosaSambar.price },
+          { extraId: (dosaSambar as any)._id, name: dosaSambar.name, price: dosaSambar.price },
         ],
       },
     ];
