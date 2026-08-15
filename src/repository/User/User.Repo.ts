@@ -1,6 +1,17 @@
 import User from "../../model/user.model.js";
 
+
+ interface IUserData{
+  role: "CUSTOMER" | "OWNER";
+  name: string;
+  email: string;
+  password: string;
+  createdAt?: Date;
+ }
+
+
 class user {
+  
   find(filters: any = {}) {
     return User.find(filters);
   }
@@ -13,7 +24,7 @@ class user {
     return User.findOne(filters);
   }
 
-  async create(userData: any) {
+  async create(userData: IUserData) {
     return User.create(userData);
   }
 
@@ -25,9 +36,6 @@ class user {
     return User.findOne({ email });
   }
 
-  async createUser(userData: any) {
-    return User.create(userData);
-  }
 
   async UserAll() {
     return User.find({}).select("-password");
