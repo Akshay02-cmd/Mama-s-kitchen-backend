@@ -53,7 +53,7 @@ Mounted at `/auth`
 
 | Method | Path | Access | Notes |
 | --- | --- | --- | --- |
-| `POST` | `/auth/register` | Public | Creates `CUSTOMER` or `OWNER` user, returns token and user |
+| `POST` | `/auth/register` | Public | Creates a `CUSTOMER` user, returns token and user |
 | `POST` | `/auth/login` | Public | Logs user in, returns token and user |
 | `POST` | `/auth/logout` | Public | Clears auth cookie |
 
@@ -77,10 +77,8 @@ Mounted at `/mess`
 | Method | Path | Access | Notes |
 | --- | --- | --- | --- |
 | `GET` | `/mess` | Public | Returns mess list |
-| `POST` | `/mess` | `OWNER` | Creates a mess |
 | `GET` | `/mess/:id` | Public | Returns mess details |
 | `PUT` | `/mess/:id` | `OWNER` | Updates a mess |
-| `DELETE` | `/mess/:id` | `OWNER` | Deletes a mess |
 | `GET` | `/mess/:messId/meals` | Public | Returns meals for a mess |
 | `GET` | `/mess/:messId/orders` | `OWNER` | Returns owner-facing orders for a mess |
 | `GET` | `/mess/:messId/stats` | `OWNER` | Returns owner-facing stats for a mess |

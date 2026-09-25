@@ -168,16 +168,16 @@ sum((base meal price + sum(selected extras)) * quantity)
 
 This logic lives in the order service.
 
-## Owner Workflow Design
+## Single-Tenant Owner Workflow
 
-The codebase contains some multi-mess owner support in owner services, but current product usage is intentionally simpler:
+The application is single-tenant:
 
-- one owner signs in
-- one owner generally operates one mess
-- owner dashboard shows mess cards
-- clicking a mess card opens that mess-specific dashboard route
+- public registration always creates a customer
+- the provisioned mess operator signs in with the stored owner account
+- the owner dashboard operates on the one configured mess
+- additional mess creation and deletion are disabled
 
-This is the behavior the frontend and seed data are now aligned around.
+The backend derives authorization from the persisted user role. Clients never submit a role during signup or login.
 
 ## Current Technical Quirks
 

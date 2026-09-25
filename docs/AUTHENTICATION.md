@@ -11,16 +11,12 @@ This dual approach matches the current frontend implementation, which stores the
 
 ## Supported User Roles
 
-Roles supported by the user model and public auth validators:
+Roles supported by the user model and RBAC policy:
 
 - `CUSTOMER`
 - `OWNER`
 
-Important implementation note:
-
-- some route modules still reference `ADMIN` in authorization middleware
-- the public `User` model and auth validators do not allow creating or logging in as `ADMIN`
-- treat `ADMIN` as an internal or incomplete path, not part of the normal product flow
+Public users cannot select or assign either role.
 
 ## Login and Registration Flow
 
@@ -36,7 +32,6 @@ Expected request body:
 
 ```json
 {
-  "role": "CUSTOMER",
   "name": "Rahul Sharma",
   "email": "rahul@customer.com",
   "password": "password123"
@@ -55,7 +50,6 @@ Expected request body:
 
 ```json
 {
-  "role": "OWNER",
   "email": "priya@owner.com",
   "password": "password123"
 }
@@ -148,12 +142,12 @@ If no token is found or verification fails, the middleware throws `UnauthorizedE
 
 ## Role Protection
 
-Role checks are applied with `authorizeRoles(...)` after authentication middleware.
+Role checks are applied with `authorizeRoles(...)` after authentication middleware. The role is read from the persisted user and JWT; it is never trusted from login or signup input.
 
 Common patterns in the codebase:
 
 - `authorizeRoles("CUSTOMER")` for order creation and customer profile creation
-- `authorizeRoles("OWNER")` for mess creation, meal creation, owner analytics, and order status updates
+- `authorizeRoles("OWNER")` for singleton mess management, meal creation, owner analytics, and order status updates
 - `authorizeRoles("CUSTOMER", "OWNER")` for contact submission
 - `authorizeRoles("ADMIN")` on some review, contact, and user-list routes
 
