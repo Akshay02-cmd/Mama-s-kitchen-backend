@@ -51,7 +51,7 @@ Implementation notes:
 
 ### CustomerProfile
 
-Model: `src/model/CustomerProfile.model.js`
+Model: `src/model/Customer.model.ts`
 
 Purpose:
 
@@ -70,7 +70,7 @@ Current documented shape in codebase usage:
 
 ### OwnerProfile
 
-Model: `src/model/OwnerProfile.model.js`
+Model: `src/model/Owner.model.ts`
 
 Purpose:
 

@@ -2,16 +2,18 @@
   "name": "mummas-kitchen-backend",
   "version": "1.0.0",
   "description": "RESTful API backend for Mumma's Kitchen - A meal ordering platform connecting customers with local home-based caterers and mess services",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "start:prod": "node src/server.js",
-    "dev": "nodemon --inspect src/server.js",
+    "build": "tsc",
+    "start": "nodemon --exec tsx src/server.ts",
+    "start:prod": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "echo \"Linting not configured yet\"",
     "docs": "echo \"API documentation available at http://localhost:5000/api-docs\"",
-    "seed": "node src/seed/seedDatabase.js"
+    "seed": "tsx src/seed/seedDatabase.ts"
+
   },
   "keywords": [
     "meal-ordering",
@@ -64,6 +66,18 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "typescript": "^5.2.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.5.1",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/multer": "^1.4.7",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/swagger-jsdoc": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/http-status-codes": "^1.2.0",
+    "tsx": "^4.19.2"
   }
 }
