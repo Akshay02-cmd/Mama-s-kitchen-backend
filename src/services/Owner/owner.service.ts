@@ -1,20 +1,22 @@
 
 
-import { Mess, Meal, Order } from "../../repository/index.js";
+import MessModel from "../../model/Mess.model.js";
+import MealModel from "../../model/Meal.model.js";
+import OrderModel from "../../model/order.model.js";
 import { NotFoundError } from "../../errors/index.js";
 
 
 export const getOwnerDashboardStats = async (ownerId) => {
   // Get all messes owned by this owner
-  const messes = await Mess.find({ ownerId });
+  const messes = await MessModel.find({ ownerId });
   const messIds = messes.map(mess => mess._id);
 
   // Get all meals from these messes
-  const meals = await Meal.find({ messId: { $in: messIds } });
+  const meals = await MealModel.find({ messId: { $in: messIds } });
   const mealIds = meals.map(meal => meal._id);
 
   // Get all orders containing meals from these messes
-  const orders = await Order.find({
+  const orders = await OrderModel.find({
     "orderItems.mealId": { $in: mealIds }
   });
 
@@ -41,7 +43,7 @@ export const getOwnerDashboardStats = async (ownerId) => {
   });
 
   // Get recent orders
-  const recentOrders = await Order.find({
+  const recentOrders = await OrderModel.find({
     "orderItems.mealId": { $in: mealIds }
   })
     .sort({ createdAt: -1 })
@@ -62,7 +64,7 @@ export const getOwnerDashboardStats = async (ownerId) => {
 
 
 export const getOwnerMesses = async (ownerId) => {
-  const messes = await Mess.find({ ownerId })
+  const messes = await MessModel.find({ ownerId })
     .populate("ownerId", "name email")
     .sort({ createdAt: -1 });
 
@@ -70,14 +72,14 @@ export const getOwnerMesses = async (ownerId) => {
   const messesWithStats = await Promise.all(
     messes.map(async (mess) => {
       // Get meals count for this mess
-      const mealsCount = await Meal.countDocuments({ messId: mess._id });
+      const mealsCount = await MealModel.countDocuments({ messId: mess._id });
       
       // Get meals for this mess
-      const meals = await Meal.find({ messId: mess._id });
+      const meals = await MealModel.find({ messId: mess._id });
       const mealIds = meals.map(meal => meal._id);
       
       // Get orders containing these meals
-      const orders = await Order.find({
+      const orders = await OrderModel.find({
         "orderItems.mealId": { $in: mealIds }
       });
       
@@ -105,7 +107,7 @@ export const getOwnerMesses = async (ownerId) => {
 
 
 export const getMessMeals = async (messId) => {
-  const meals = await Meal.find({ messId })
+  const meals = await MealModel.find({ messId })
     .populate("messId", "name area")
     .sort({ createdAt: -1 });
 
@@ -115,7 +117,7 @@ export const getMessMeals = async (messId) => {
 
 export const getMessOrders = async (messId, status = null) => {
   // First get all meals for this mess
-  const meals = await Meal.find({ messId });
+  const meals = await MealModel.find({ messId });
   const mealIds = meals.map(meal => meal._id);
 
   // Build query for orders
@@ -128,7 +130,7 @@ export const getMessOrders = async (messId, status = null) => {
   }
 
   // Get orders
-  const orders = await Order.find(query)
+  const orders = await OrderModel.find(query)
     .populate("userId", "name email phone")
     .populate("orderItems.mealId", "name price mealType")
     .sort({ createdAt: -1 });
@@ -138,11 +140,11 @@ export const getMessOrders = async (messId, status = null) => {
 
 export const getMessStats = async (messId) => {
   // Get meals for this mess
-  const meals = await Meal.find({ messId });
+  const meals = await MealModel.find({ messId });
   const mealIds = meals.map(meal => meal._id);
   
   // Get orders
-  const orders = await Order.find({
+  const orders = await OrderModel.find({
     "orderItems.mealId": { $in: mealIds }
   });
 

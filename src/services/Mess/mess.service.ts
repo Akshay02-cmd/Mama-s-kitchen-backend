@@ -1,20 +1,5 @@
 import { Mess } from "../../repository/index.js";
-import { BadRequestError, ForbiddenError, NotFoundError } from "../../errors/index.js";
-
-export const createMess = async (ownerId, messData) => {
-  const existingMesses = await Mess.MessGetByOwnerId(ownerId);
-  if (existingMesses.length > 0) {
-    throw new BadRequestError("This application supports one mess only");
-  }
-
-  const mess = await Mess.MessCreate(ownerId, messData);
-
-  if (!mess) {
-    throw new BadRequestError("Unable to create mess");
-  }
-
-  return mess;
-};
+import { ForbiddenError, NotFoundError } from "../../errors/index.js";
 
 export const getMessById = async (messId) => {
   if (!messId) {
@@ -73,21 +58,6 @@ export const updateMess = async (messId, ownerId, updateData) => {
   return mess;
 };
 
-export const deleteMess = async (messId, ownerId) => {
-  const ownsMess = await verifyMessOwnership(messId, ownerId);
-  if (!ownsMess) {
-    throw new ForbiddenError("You cannot manage this mess");
-  }
-
-  const mess = await Mess.MessDeleteById(messId);
-
-  if (!mess) {
-    throw new NotFoundError("Mess not found");
-  }
-
-  return mess;
-};
-
 export const getMessesByOwnerId = async (ownerId) => {
   const messes = await Mess.MessGetByOwnerId(ownerId);
 
@@ -103,11 +73,9 @@ export const verifyMessOwnership = async (messId, ownerId) => {
 };
 
 const messService = {
-  createMess,
   getMessById,
   getAllMesses,
   updateMess,
-  deleteMess,
   getMessesByOwnerId,
   verifyMessOwnership,
 };

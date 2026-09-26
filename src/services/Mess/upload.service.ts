@@ -1,5 +1,6 @@
 import cloudinary, { isCloudinaryConfigured } from "../../config/cloudinary.js";
-import { BadRequestError } from "../../errors/index.js";
+import { BadRequestError, CustomApiError } from "../../errors/index.js";
+import { StatusCodes } from "http-status-codes";
 
 export const uploadImageToCloudinary = async (file, options = {}) => {
   if (!file) {
@@ -14,16 +15,38 @@ export const uploadImageToCloudinary = async (file, options = {}) => {
 
   const fileDataUri = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
 
-  const result = await cloudinary.uploader.upload(fileDataUri, {
-    folder: options.folder || "mummas-kitchen",
-    resource_type: "image",
-    transformation: [
-      {
-        fetch_format: "auto",
-        quality: "auto",
-      },
-    ],
-  });
+  let result;
+  try {
+    result = await cloudinary.uploader.upload(fileDataUri, {
+      folder: options.folder || "mummas-kitchen",
+      resource_type: "image",
+      transformation: [
+        {
+          fetch_format: "auto",
+          quality: "auto",
+        },
+      ],
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : typeof error === "object" && error && "message" in error
+          ? String(error.message)
+          : "Unknown Cloudinary error";
+
+    if (message.includes("Invalid Signature")) {
+      throw new CustomApiError(
+        "Cloudinary credentials are invalid. Verify CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.",
+        StatusCodes.BAD_GATEWAY,
+      );
+    }
+
+    throw new CustomApiError(
+      `Image upload failed: ${message}`,
+      StatusCodes.BAD_GATEWAY,
+    );
+  }
 
   return {
     url: result.secure_url,

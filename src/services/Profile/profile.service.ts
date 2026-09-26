@@ -3,12 +3,12 @@ import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
 export const createCustomerProfile = async (userId, profileData) => {
   // Check if profile already exists
-  const existingProfile = await CProfile.getByUserId(userId);
+  const existingProfile = await CProfile.getCustomerProfileByUserId(userId);
   if (existingProfile) {
     throw new BadRequestError("Customer profile already exists");
   }
 
-  const profile = await CProfile.create({
+  const profile = await CProfile.createCustomerProfile({
     userId,
     ...profileData,
     isProfileCompleted: true, // Mark profile as completed when created
@@ -22,7 +22,7 @@ export const createCustomerProfile = async (userId, profileData) => {
 };
 
 export const getCustomerProfile = async (userId) => {
-  const profile = await CProfile.getByUserId(userId);
+  const profile = await CProfile.getCustomerProfileByUserId(userId);
 
   if (!profile) {
     throw new NotFoundError("Customer profile not found");
@@ -38,7 +38,7 @@ export const getCustomerProfile = async (userId) => {
 };
 
 export const updateCustomerProfile = async (userId, updateData) => {
-  const profile = await CProfile.update(userId, updateData);
+  const profile = await CProfile.CustomerUpdate(userId, updateData);
   if (!profile) {
     throw new NotFoundError("Customer profile not found");
   }
@@ -47,12 +47,12 @@ export const updateCustomerProfile = async (userId, updateData) => {
 
 export const createOwnerProfile = async (userId, profileData) => {
   // Check if profile already exists
-  const existingProfile = await OProfile.getByUserId(userId);
+  const existingProfile = await OProfile.getOwnerProfileByUserId(userId);
   if (existingProfile) {
     throw new BadRequestError("Owner profile already exists");
   }
 
-  const profile = await OProfile.create({
+  const profile = await OProfile.createOwnerProfile({
     userId,
     ...profileData,
     isProfileCompleted: true, // Mark profile as completed when created
@@ -72,7 +72,7 @@ export const createOwnerProfile = async (userId, profileData) => {
  * @throws {NotFoundError} If profile not found
  */
 export const getOwnerProfile = async (userId) => {
-  const profile = await OProfile.getByUserId(userId);
+  const profile = await OProfile.getOwnerProfileByUserId(userId);
 
   if (!profile) {
     throw new NotFoundError("Owner profile not found");
@@ -88,7 +88,7 @@ export const getOwnerProfile = async (userId) => {
 };
 
 export const updateOwnerProfile = async (userId, updateData) => {
-  const profile = await OProfile.update(userId, {
+  const profile = await OProfile.OProfileUpdate(userId, {
     ...updateData,
     isProfileCompleted: true,
   }); // Mark profile as completed when updated

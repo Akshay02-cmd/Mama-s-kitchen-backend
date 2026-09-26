@@ -4,4 +4,11 @@ import NotFoundError from "./NotFoundError.js";
 import UnauthorizedError from "./UnauthorizedError.js";
 import ForbiddenError from "./ForbiddenError.js";
 
-export { CutomeAPIerror, BadRequestError, NotFoundError, UnauthorizedError, ForbiddenError };
+export {
+	CutomeAPIerror,
+	CutomeAPIerror as CustomApiError,
+	BadRequestError,
+	NotFoundError,
+	UnauthorizedError,
+	ForbiddenError,
+};

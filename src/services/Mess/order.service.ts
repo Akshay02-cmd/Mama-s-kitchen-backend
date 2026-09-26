@@ -48,8 +48,7 @@ export const createOrder = async (userId, orderData) => {
   }
 
   // Create order
-  const order = await Order.Ordercreate({
-    userId,
+  const order = await Order.Ordercreate(userId, {
     orderItems,
     totalAmount,
     deliveryAddress,
