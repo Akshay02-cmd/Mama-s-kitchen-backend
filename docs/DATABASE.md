@@ -51,7 +51,7 @@ Implementation notes:
 
 ### CustomerProfile
 
-Model: `src/model/CustomerProfile.model.js`
+Model: `src/model/Customer.model.ts`
 
 Purpose:
 
@@ -70,7 +70,7 @@ Current documented shape in codebase usage:
 
 ### OwnerProfile
 
-Model: `src/model/OwnerProfile.model.js`
+Model: `src/model/Owner.model.ts`
 
 Purpose:
 
@@ -112,8 +112,8 @@ Common fields used across the app:
 
 Product note:
 
-- owner analytics can aggregate multiple messes
-- seed data and current UI flow are aligned to one owner operating one selected mess at a time
+- one configured mess is linked to the provisioned owner account
+- additional mess creation and deletion are disabled by the API
 
 ### Meal
 
