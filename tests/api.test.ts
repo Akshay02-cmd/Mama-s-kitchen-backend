@@ -173,6 +173,23 @@ describe("API endpoint contracts", () => {
       .expect(404);
   });
 
+  it("loads the single-mess owner dashboard data", async () => {
+    const messes = await request(app)
+      .get("/owner/messes")
+      .set("Authorization", `Bearer ${ownerToken}`);
+
+    expect(messes.status).toBe(200);
+    expect(messes.body.messes).toHaveLength(1);
+    expect(messes.body.messes[0].totalMeals).toBe(1);
+
+    const stats = await request(app)
+      .get("/owner/dashboard/stats")
+      .set("Authorization", `Bearer ${ownerToken}`);
+
+    expect(stats.status).toBe(200);
+    expect(stats.body.stats.totalMesses).toBe(1);
+  });
+
   it("requires authentication for uploads and rejects invalid credentials", async () => {
     await request(app).post("/uploads/image").expect(401);
 
